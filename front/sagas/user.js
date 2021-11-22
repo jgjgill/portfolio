@@ -27,11 +27,11 @@ function loginAPI(data) {
 function* login(action) {
   try {
     yield delay(1000);
-    // const result = yield call(loginAPI, action.data);
+    // const result = yield call(loginAPI, action.payload);
     yield put({
       type: LOG_IN_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -48,11 +48,11 @@ function logoutAPI(data) {
 function* logout(action) {
   try {
     yield delay(1000);
-    // const result = yield call(logoutAPI, action.data);
+    // const result = yield call(logoutAPI, action.payload);
     yield put({
       type: LOG_OUT_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -69,11 +69,11 @@ function signupAPI(data) {
 function* signup(action) {
   try {
     yield delay(1000);
-    // const result = yield call(signupAPI, action.data)
+    // const result = yield call(signupAPI, action.payload)
     yield put({
       type: SIGN_UP_SUCCESS,
       // data: result.data
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -90,10 +90,10 @@ function avatarChangeAPI(data) {
 function* avatarChange(action) {
   try {
     yield delay(1000);
-    // const result = yield call(avatarChangeAPI, action.data);
+    // const result = yield call(avatarChangeAPI, action.payload);
     yield put({
       type: AVATAR_CHANGE_SUCCESS,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -110,11 +110,11 @@ function nicknameChangeAPI(data) {
 function* nicknameChange(action) {
   try {
     yield delay(1000);
-    // const result = yield call(nicknameChangeAPI, action.data);
+    // const result = yield call(nicknameChangeAPI, action.payload);
     yield put({
       type: NICKNAME_CHANGE_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -131,11 +131,11 @@ function descriptionChangeAPI(data) {
 function* descriptionChange(action) {
   try {
     yield delay(1000);
-    // const result = yield call(descriptionChangeAPI, action.data);
+    // const result = yield call(descriptionChangeAPI, action.payload);
     yield put({
       type: DESCRIPTION_CHANGE_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);

@@ -73,14 +73,14 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-const dummyComment = (data) => ({
-  User: {
-    id: data.myDataId,
-    nickname: 'kokokokoko',
-    avatarNumber: 40,
-  },
-  content: data.commentText,
-});
+// const dummyComment = (data) => ({
+//   User: {
+//     id: data.myDataId,
+//     nickname: 'kokokokoko',
+//     avatarNumber: 40,
+//   },
+//   content: data.commentText,
+// });
 
 // const initialState = {};
 

@@ -15,11 +15,11 @@ function addPostAPI(data) {
 function* addPost(action) {
   try {
     yield delay(1000);
-    // const result = yield call(addPostAPI, action.data);
+    // const result = yield call(addPostAPI, action.payload);
     yield put({
       type: ADD_POST_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);
@@ -36,11 +36,11 @@ function addCommentAPI(data) {
 function* addComment(action) {
   try {
     yield delay(1000);
-    // const result = yield call(addCommentAPI, action.data);
+    // const result = yield call(addCommentAPI, action.payload);
     yield put({
       type: ADD_COMMENT_SUCCESS,
       // data: result.data,
-      data: action.data,
+      data: action.payload,
     });
   } catch (err) {
     console.error(err);

@@ -41,7 +41,7 @@ const MovieRank = () => {
   }, []);
 
   useEffect(() => {
-    getMovies();
+    // getMovies();
   }, []);
 
   return (
