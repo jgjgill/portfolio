@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { List } from 'antd';
 import styled from 'styled-components';
+import dayjs from 'dayjs';
 
-const nowTime = new Date();
-const year = String(nowTime.getFullYear());
-const month = String(nowTime.getMonth() + 1);
-const date = String(nowTime.getDate() - 1);
-const yesterday = year + month + date;
+const yesterday = dayjs().subtract(1, 'day').format('YYYYMMDD');
 
 const MovieList = styled(List)`
   background: #fff;
@@ -54,7 +51,7 @@ const MovieRank = () => {
         : (
           <MovieList
             header={<h1>박스오피스 순위</h1>}
-            footer={<h4>{`${year}.${month}.${date}`}</h4>}
+            footer={<h4>{`${dayjs().year()}.${dayjs().month() + 1}.${dayjs().date() - 1}`}</h4>}
             bordered
             dataSource={moviesList.movies}
             renderItem={
