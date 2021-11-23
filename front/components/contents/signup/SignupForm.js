@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 import useInput from '../../../hooks/useInput';
 import { signupAction } from '../../../reducers/userActionCreator';
 
@@ -20,7 +19,7 @@ const CheckboxWrapper = styled.div`
 
 const SignupForm = () => {
   const dispatch = useDispatch();
-  const { signupLoading, signupDone } = useSelector((state) => state.user);
+  const { signupLoading } = useSelector((state) => state.user);
 
   const [id, onChangeId] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -58,14 +57,6 @@ const SignupForm = () => {
 
     term ? setTermError(false) : setTermError(true);
   }, [password, passwordCheck, term]);
-
-  const router = useRouter();
-  useEffect(() => {
-    if (signupDone) {
-      router.push('/');
-      // 회원가입 후 signupDone 초기화시키기
-    }
-  }, [signupDone]);
 
   const onSubmit = useCallback(() => {
     if (!(passwordError || termError)) {

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
+import { useRouter } from 'next/router';
 import AppLayout from '../components/layouts/AppLayout';
 import NicknameEditForm from '../components/contents/profile/NicknameEditForm';
 import FollowList from '../components/contents/profile/FollowList';
@@ -16,13 +17,21 @@ const GlobalFlex = createGlobalStyle`
 `;
 
 const Profile = () => {
-  const { myData } = useSelector((state) => state.user);
+  const { myData, isLoggedIn } = useSelector((state) => state.user);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push('/');
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
       <Head>
         <title>내 프로필 - jgjgill</title>
       </Head>
+      {isLoggedIn && (
       <AppLayout>
         <GlobalFlex />
         <AvatarChangeForm />
@@ -31,6 +40,8 @@ const Profile = () => {
         <FollowList data={myData.Followers} />
         <FollowingList data={myData.Followings} />
       </AppLayout>
+      )}
+
     </>
   );
 };

@@ -1,5 +1,6 @@
 import shortid from 'shortid';
 import { createReducer } from '@reduxjs/toolkit';
+import faker from 'faker';
 import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -78,6 +79,21 @@ const initialState = {
   removeCommentDone: false,
   removeCommentError: null,
 };
+
+initialState.mainPosts = initialState.mainPosts.concat(
+  Array(20).fill().map(() => ({
+    id: shortid.generate(),
+    User: {
+      id: shortid.generate(),
+      nickname: faker.name.findName(),
+      avatarNumber: faker.datatype.number(),
+    },
+    content: faker.lorem.paragraph(),
+    rateNumber: Math.random() * 5,
+    Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
+    Comments: [],
+  })),
+);
 
 const dummyPost = (data) => ({
   id: shortid.generate(),

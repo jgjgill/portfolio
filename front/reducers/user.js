@@ -20,6 +20,7 @@ import {
   DESCRIPTION_CHANGE_FAILURE,
 
 } from './action';
+import { signUpDoneRestAction } from './userActionCreator';
 
 const initialState = {
   loginLoading: false,
@@ -48,7 +49,7 @@ const initialState = {
 
   myData: {
     id: null,
-    avatarNumber: 20,
+    avatarNumber: null,
     nickname: null,
     description: null,
   },
@@ -105,6 +106,10 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(SIGN_UP_FAILURE, (state, action) => {
       state.signupLoading = false;
       state.signupError = action.error;
+    })
+
+    .addCase(signUpDoneRestAction, (state) => {
+      state.signupDone = false;
     })
 
     .addCase(AVATAR_CHANGE_REQUEST, (state) => {
