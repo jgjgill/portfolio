@@ -1,3 +1,4 @@
+import { createReducer } from '@reduxjs/toolkit';
 import {
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
@@ -30,7 +31,7 @@ const initialState = {
   isLoggedIn: false,
 
   signupLoading: false,
-  signupDoen: false,
+  signupDone: false,
   signupError: null,
 
   changeAvatarLoading: false,
@@ -63,146 +64,90 @@ const dummyUser = (data) => ({
   Followings: ['jgjg1', 'jgjg2'],
 });
 
-const reducer = (state = initialState, action) => {
-  const { data } = action;
-  switch (action.type) {
-    case LOG_IN_REQUEST:
-      return {
-        ...state,
-        loginLoading: true,
-        loginDone: false,
-      };
-    case LOG_IN_SUCCESS:
-      return {
-        ...state,
-        loginLoading: false,
-        isLoggedIn: true,
-        myData: dummyUser(data),
-      };
-    case LOG_IN_FAILURE:
-      return {
-        ...state,
-        loginLoading: false,
-        loginError: action.error,
-      };
+const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(LOG_IN_REQUEST, (state) => {
+      state.loginLoading = true;
+      state.loginDone = false;
+    })
+    .addCase(LOG_IN_SUCCESS, (state, action) => {
+      state.loginLoading = false;
+      state.isLoggedIn = true;
+      state.myData = dummyUser(action.data);
+    })
+    .addCase(LOG_IN_FAILURE, (state, action) => {
+      state.loginLoading = false;
+      state.loginError = action.error;
+    })
 
-    case LOG_OUT_REQUEST:
-      return {
-        ...state,
-        logoutLoading: true,
-        logoutDone: true,
-      };
-    case LOG_OUT_SUCCESS:
-      return {
-        ...state,
-        logoutLoading: false,
-        isLoggedIn: false,
-        myData: {
-          ...state.myData,
-          id: null,
-          avatarNumber: null,
-        },
-      };
-    case LOG_OUT_FAILURE:
-      return {
-        ...state,
-        logoutLoading: false,
-        logoutError: action.error,
-      };
+    .addCase(LOG_OUT_REQUEST, (state) => {
+      state.logoutLoading = true;
+      state.logoutDone = false;
+    })
+    .addCase(LOG_OUT_SUCCESS, (state) => {
+      state.logoutLoading = false;
+      state.isLoggedIn = false;
+      state.myData = null;
+    })
+    .addCase(LOG_OUT_FAILURE, (state, action) => {
+      state.logoutLoading = false;
+      state.logoutError = action.error;
+    })
 
-    case SIGN_UP_REQUEST:
-      return {
-        ...state,
-        signupLoading: true,
-        signupDoen: false,
-      };
+    .addCase(SIGN_UP_REQUEST, (state) => {
+      state.signupLoading = true;
+      state.signupDone = false;
+    })
+    .addCase(SIGN_UP_SUCCESS, (state, action) => {
+      state.signupLoading = false;
+      state.signupDone = true;
+    })
+    .addCase(SIGN_UP_FAILURE, (state, action) => {
+      state.signupLoading = false;
+      state.signupError = action.error;
+    })
 
-    case SIGN_UP_SUCCESS:
-      return {
-        ...state,
-        signupLoading: false,
-        signupDoen: true,
-      };
+    .addCase(AVATAR_CHANGE_REQUEST, (state) => {
+      state.changeAvatarLoading = true;
+      state.changeAvatarDone = false;
+    })
+    .addCase(AVATAR_CHANGE_SUCCESS, (state, action) => {
+      state.changeAvatarLoading = false;
+      state.changeAvatarDone = true;
+      state.myData.avatarNumber = action.data.myAvatar;
+    })
+    .addCase(AVATAR_CHANGE_FAILURE, (state, action) => {
+      state.changeAvatarLoading = false;
+      state.changeAvatarError = action.error;
+    })
 
-    case SIGN_UP_FAILURE:
-      return {
-        ...state,
-        signupLoading: false,
-        signupError: action.error,
-      };
+    .addCase(NICKNAME_CHANGE_REQUEST, (state) => {
+      state.changeNicknameLoading = true;
+      state.changeNicknameDone = false;
+    })
+    .addCase(NICKNAME_CHANGE_SUCCESS, (state, action) => {
+      state.changeNicknameLoading = false;
+      state.changeNicknameDone = true;
+      state.myData.nickname = action.data.nickname;
+    })
+    .addCase(NICKNAME_CHANGE_FAILURE, (state, action) => {
+      state.changeNicknameLoading = false;
+      state.changeNicknameError = action.error;
+    })
 
-    case AVATAR_CHANGE_REQUEST:
-      return {
-        ...state,
-        changeAvatarLoading: true,
-        changeAvatarDone: false,
-      };
-
-    case AVATAR_CHANGE_SUCCESS:
-      return {
-        ...state,
-        changeAvatarLoading: false,
-        changeAvatarDone: true,
-        myData: {
-          ...state.myData,
-          avatarNumber: data.myAvatar,
-        },
-      };
-    case AVATAR_CHANGE_FAILURE:
-      return {
-        changeNicknameLoading: false,
-        changeNicknameError: action.error,
-      };
-
-    case NICKNAME_CHANGE_REQUEST:
-      return {
-        ...state,
-        changeNicknameLoading: true,
-        changeNicknameDone: false,
-      };
-
-    case NICKNAME_CHANGE_SUCCESS:
-      return {
-        ...state,
-        changeNicknameLoading: false,
-        changeNicknameDone: true,
-        myData: {
-          ...state.myData,
-          nickname: data.nickname,
-        },
-      };
-    case NICKNAME_CHANGE_FAILURE:
-      return {
-        changeNicknameLoading: false,
-        changeNicknameError: action.error,
-      };
-
-    case DESCRIPTION_CHANGE_REQUEST:
-      return {
-        ...state,
-        changeDescriptionLoading: true,
-        changeDescriptionDone: false,
-      };
-    case DESCRIPTION_CHANGE_SUCCESS:
-      return {
-        ...state,
-        changeDescriptionLoading: false,
-        changeDescriptionDone: true,
-        myData: {
-          ...state.myData,
-          description: data.description,
-        },
-      };
-    case DESCRIPTION_CHANGE_FAILURE:
-      return {
-        ...state,
-        changeDescriptionLoading: false,
-        changeDescriptionError: action.error,
-      };
-
-    default:
-      return state;
-  }
-};
+    .addCase(DESCRIPTION_CHANGE_REQUEST, (state) => {
+      state.changeDescriptionLoading = true;
+      state.changeDescriptionDone = false;
+    })
+    .addCase(DESCRIPTION_CHANGE_SUCCESS, (state, action) => {
+      state.changeDescriptionLoading = false;
+      state.changeDescriptionDone = true;
+      state.myData.description = action.data.description;
+    })
+    .addCase(DESCRIPTION_CHANGE_FAILURE, (state, action) => {
+      state.changeDescriptionLoading = false;
+      state.changeDescriptionError = action.error;
+    });
+});
 
 export default reducer;

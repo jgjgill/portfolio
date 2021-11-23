@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+import { createReducer } from '@reduxjs/toolkit';
 import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
@@ -8,7 +9,7 @@ import {
   ADD_COMMENT_FAILURE,
 } from './action';
 
-const dummyData = {
+const initialState = {
   mainPosts: [
     {
       id: 1,
@@ -73,62 +74,46 @@ const dummyPost = (data) => ({
   Comments: [],
 });
 
-// const dummyComment = (data) => ({
-//   User: {
-//     id: data.myDataId,
-//     nickname: 'kokokokoko',
-//     avatarNumber: 40,
-//   },
-//   content: data.commentText,
-// });
+const dummyComment = (data) => ({
+  User: {
+    id: data.myDataId,
+    nickname: 'zzzzzzzzzz',
+    avatarNumber: 40,
+  },
+  content: data.commentText,
+});
 
-// const initialState = {};
+const reducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(ADD_POST_REQUEST, (state) => {
+      state.addPostLoading = true;
+      state.addPostDone = false;
+    })
+    .addCase(ADD_POST_SUCCESS, (state, action) => {
+      state.addPostLoading = false;
+      state.addPostDone = true;
+      state.mainPosts.unshift(dummyPost(action.data));
+    })
+    .addCase(ADD_POST_FAILURE, (state, action) => {
+      state.addPostLoading = false;
+      state.addPostError = action.error;
+    })
 
-const reducer = (state = dummyData, action) => {
-  switch (action.type) {
-    case ADD_POST_REQUEST:
-      return {
-        ...state,
-        addPostLoading: true,
-        addPostDone: false,
-      };
-    case ADD_POST_SUCCESS:
-      return {
-        ...state,
-        addPostLoading: false,
-        addPostDone: true,
-        mainPosts: [dummyPost(action.data), ...state.mainPosts],
-      };
-    case ADD_POST_FAILURE:
-      return {
-        ...state,
-        addPostLoading: false,
-        addPostError: action.error,
-      };
-
-    case ADD_COMMENT_REQUEST:
-      return {
-        ...state,
-        addCommentLoading: true,
-        addCommentDone: false,
-      };
-    case ADD_COMMENT_SUCCESS:
+    .addCase(ADD_COMMENT_REQUEST, (state) => {
+      state.addCommentLoading = true;
+      state.addCommentDone = false;
+    })
+    .addCase(ADD_COMMENT_SUCCESS, (state, action) => {
       // data.commentText, data.postId, data.myDataId
-      return {
-        ...state,
-        addCommentLoading: false,
-        addCommentDone: true,
-      };
-    case ADD_COMMENT_FAILURE:
-      return {
-        ...state,
-        addCommentLoading: false,
-        addCommentError: action.error,
-      };
-
-    default:
-      return state;
-  }
-};
+      const post = state.mainPosts.find((v) => v.id === action.data.postId);
+      state.addCommentLoading = false;
+      state.addCommentDone = true;
+      post.Comments.unshift(dummyComment(action.data));
+    })
+    .addCase(ADD_COMMENT_FAILURE, (state, action) => {
+      state.addCommentLoading = false;
+      state.addCommentError = action.error;
+    });
+});
 
 export default reducer;

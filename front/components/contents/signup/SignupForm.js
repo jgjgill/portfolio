@@ -20,7 +20,7 @@ const CheckboxWrapper = styled.div`
 
 const SignupForm = () => {
   const dispatch = useDispatch();
-  const { signupLoading, signupDoen } = useSelector((state) => state.user);
+  const { signupLoading, signupDone } = useSelector((state) => state.user);
 
   const [id, onChangeId] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -61,11 +61,11 @@ const SignupForm = () => {
 
   const router = useRouter();
   useEffect(() => {
-    if (signupDoen) {
+    if (signupDone) {
       router.push('/');
       // 회원가입 후 signupDone 초기화시키기
     }
-  }, [signupDoen]);
+  }, [signupDone]);
 
   const onSubmit = useCallback(() => {
     if (!(passwordError || termError)) {
