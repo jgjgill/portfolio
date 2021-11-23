@@ -4,9 +4,15 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_SUCCESS,
+  REMOVE_POST_FAILURE,
   ADD_COMMENT_REQUEST,
   ADD_COMMENT_SUCCESS,
   ADD_COMMENT_FAILURE,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_SUCCESS,
+  REMOVE_COMMENT_FAILURE,
 } from './action';
 
 const initialState = {
@@ -38,13 +44,16 @@ const initialState = {
             nickname: 'kokokokoko',
             avatarNumber: 40,
           },
+          commentId: 2,
           content: 'wowwowow',
         },
         {
           User: {
+            id: 1,
             nickname: 'momomomo',
             avatarNumber: 45,
           },
+          commentId: 1,
           content: 'kikikiki',
         },
       ],
@@ -57,9 +66,17 @@ const initialState = {
   addPostDone: false,
   addPostError: null,
 
+  removePostLoading: false,
+  removePostDone: false,
+  removePostError: null,
+
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
+
+  removeCommentLoading: false,
+  removeCommentDone: false,
+  removeCommentError: null,
 };
 
 const dummyPost = (data) => ({
@@ -80,6 +97,7 @@ const dummyComment = (data) => ({
     nickname: 'zzzzzzzzzz',
     avatarNumber: 40,
   },
+  commentId: shortid.generate(),
   content: data.commentText,
 });
 
@@ -99,6 +117,20 @@ const reducer = createReducer(initialState, (builder) => {
       state.addPostError = action.error;
     })
 
+    .addCase(REMOVE_POST_REQUEST, (state) => {
+      state.removePostLoading = true;
+      state.removePostDone = false;
+    })
+    .addCase(REMOVE_POST_SUCCESS, (state, action) => {
+      state.removePostLoading = false;
+      state.removePostDone = true;
+      state.mainPosts = state.mainPosts.filter((v) => v.id !== action.data.postId);
+    })
+    .addCase(REMOVE_POST_FAILURE, (state, action) => {
+      state.removePostLoading = false;
+      state.removePostError = action.error;
+    })
+
     .addCase(ADD_COMMENT_REQUEST, (state) => {
       state.addCommentLoading = true;
       state.addCommentDone = false;
@@ -113,6 +145,24 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(ADD_COMMENT_FAILURE, (state, action) => {
       state.addCommentLoading = false;
       state.addCommentError = action.error;
+    })
+
+    .addCase(REMOVE_COMMENT_REQUEST, (state) => {
+      state.removeCommentLoading = true;
+      state.removeCommentDone = false;
+    })
+    .addCase(REMOVE_COMMENT_SUCCESS, (state, action) => {
+      // data.postId, data.commentId
+      const post = state.mainPosts.find((v) => v.id === action.data.postId);
+      state.removeCommentLoading = false;
+      state.removeCommentDone = true;
+      post.Comments = post.Comments.filter(
+        (v) => v.commentId !== action.data.commentId,
+      );
+    })
+    .addCase(REMOVE_COMMENT_FAILURE, (state, action) => {
+      state.removeCommentLoading = false;
+      state.removeCommentError = action.error;
     });
 });
 

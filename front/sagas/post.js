@@ -7,6 +7,12 @@ import {
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
+  REMOVE_POST_REQUEST,
+  REMOVE_POST_FAILURE,
+  REMOVE_POST_SUCCESS,
+  REMOVE_COMMENT_REQUEST,
+  REMOVE_COMMENT_SUCCESS,
+  REMOVE_COMMENT_FAILURE,
 } from '../reducers/action';
 
 function addPostAPI(data) {
@@ -25,6 +31,27 @@ function* addPost(action) {
     console.error(err);
     yield put({
       type: ADD_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function removePostAPI(data) {
+  return axios.delete('/post/removePost', data);
+}
+function* removePost(action) {
+  try {
+    yield delay(1000);
+    // const result = yield call(removePostAPI, action.payload);
+    yield put({
+      type: REMOVE_POST_SUCCESS,
+      // data: result.data
+      data: action.payload,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_POST_FAILURE,
       error: err.response.data,
     });
   }
@@ -51,12 +78,47 @@ function* addComment(action) {
   }
 }
 
+function removeCommentAPI(data) {
+  return axios.delete('/post/removeComment', data);
+}
+function* removeComment(action) {
+  try {
+    yield delay(1000);
+    // const result = yield call(removeCommentAPI, action.payload);
+    yield put({
+      type: REMOVE_COMMENT_SUCCESS,
+      // data: result.data,
+      data: action.payload,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_COMMENT_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
+}
+function* watchRemovePost() {
+  yield takeLatest(REMOVE_POST_REQUEST, removePost);
 }
 function* watchAddComment() {
   yield takeLatest(ADD_COMMENT_REQUEST, addComment);
 }
+function* watchRemoveComment() {
+  yield takeLatest(REMOVE_COMMENT_REQUEST, removeComment);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchAddComment)]);
+  yield all(
+    [
+      fork(watchAddPost),
+      fork(watchRemovePost),
+      fork(watchAddComment),
+      fork(watchRemoveComment),
+    ],
+  );
 }

@@ -18,11 +18,9 @@ const CommentButtonWrapper = styled.div`
 `;
 
 const CommentForm = ({ post }) => {
-  const { myData } = useSelector((state) => state.user);
-  const { addCommentLoading, addCommentDone } = useSelector(
-    (state) => state.post,
-  );
   const dispatch = useDispatch();
+  const { myData } = useSelector((state) => state.user);
+  const { addCommentLoading, addCommentDone } = useSelector((state) => state.post);
 
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 

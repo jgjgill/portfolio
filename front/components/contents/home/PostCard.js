@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { Avatar, Button, Card, Popover, Rate, List, Comment } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { Avatar, Button, Card, Popover, Rate, List } from 'antd';
 import {
   EllipsisOutlined,
   MessageOutlined,
@@ -14,6 +14,8 @@ import styled from 'styled-components';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
+import { removePostAction } from '../../../reducers/postActionCreator';
+import CommentContent from './CommentContent';
 
 const CardWrapper = styled(Card)`
   margin-bottom: 10px;
@@ -21,6 +23,7 @@ const CardWrapper = styled(Card)`
 `;
 
 const PostCard = ({ post }) => {
+  const dispatch = useDispatch();
   const { myData } = useSelector((state) => state.user);
   const id = myData?.id;
 
@@ -33,6 +36,10 @@ const PostCard = ({ post }) => {
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
+  }, []);
+
+  const onRemovePost = useCallback(() => {
+    dispatch(removePostAction({ postId: post.id }));
   }, []);
 
   return (
@@ -58,7 +65,7 @@ const PostCard = ({ post }) => {
                 {id && post.User.id === id ? (
                   <>
                     <Button>수정</Button>
-                    <Button type="danger">삭제</Button>
+                    <Button type="danger" onClick={onRemovePost}>삭제</Button>
                   </>
                 ) : (
                   <Button>신고</Button>
@@ -89,17 +96,9 @@ const PostCard = ({ post }) => {
             itemLayout="horizontal"
             dataSource={post.Comments}
             renderItem={(item) => (
-              <li>
-                <Comment
-                  author={item.User.nickname}
-                  content={item.content}
-                  avatar={(
-                    <Avatar
-                      src={`https://joeschmoe.io/api/v1/${item.User.avatarNumber}`}
-                    />
-                  )}
-                />
-              </li>
+              <List.Item>
+                <CommentContent commentData={item} postId={post.id} />
+              </List.Item>
             )}
           />
         </>
