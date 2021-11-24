@@ -18,42 +18,16 @@ import {
   DESCRIPTION_CHANGE_REQUEST,
   DESCRIPTION_CHANGE_SUCCESS,
   DESCRIPTION_CHANGE_FAILURE,
+  FOLLOW_REQUEST,
+  FOLLOW_SUCCESS,
+  FOLLOW_FAILURE,
+  UNFOLLOW_REQUEST,
+  UNFOLLOW_SUCCESS,
+  UNFOLLOW_FAILURE,
 
 } from './action';
 import { signUpDoneRestAction } from './userActionCreator';
-
-const initialState = {
-  loginLoading: false,
-  loginError: null,
-
-  logoutLoading: false,
-  logoutError: null,
-
-  isLoggedIn: false,
-
-  signupLoading: false,
-  signupDone: false,
-  signupError: null,
-
-  changeAvatarLoading: false,
-  changeAvatarDone: false,
-  changeAvatarError: null,
-
-  changeNicknameLoading: false,
-  changeNicknameDone: false,
-  changeNicknameError: null,
-
-  changeDescriptionLoading: false,
-  changeDescriptionDone: false,
-  changeDescriptionError: null,
-
-  myData: {
-    id: null,
-    avatarNumber: null,
-    nickname: null,
-    description: null,
-  },
-};
+import userState from './userState';
 
 const dummyUser = (data) => ({
   id: data.id,
@@ -65,7 +39,7 @@ const dummyUser = (data) => ({
   Followings: ['jgjg1', 'jgjg2'],
 });
 
-const reducer = createReducer(initialState, (builder) => {
+const reducer = createReducer(userState, (builder) => {
   builder
     .addCase(LOG_IN_REQUEST, (state) => {
       state.loginLoading = true;
@@ -152,6 +126,36 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(DESCRIPTION_CHANGE_FAILURE, (state, action) => {
       state.changeDescriptionLoading = false;
       state.changeDescriptionError = action.error;
+    })
+
+    .addCase(FOLLOW_REQUEST, (state) => {
+      state.followLoading = true;
+      state.followDone = false;
+    })
+    .addCase(FOLLOW_SUCCESS, (state, action) => {
+      // data.userId
+      state.followLoading = false;
+      state.followDone = true;
+      state.myData.Followings.push(action.data.userId);
+    })
+    .addCase(FOLLOW_FAILURE, (state, action) => {
+      state.followLoading = false;
+      state.followError = action.error;
+    })
+
+    .addCase(UNFOLLOW_REQUEST, (state) => {
+      state.unfollowLoading = true;
+      state.unfollowDone = false;
+    })
+    .addCase(UNFOLLOW_SUCCESS, (state, action) => {
+      // data.userId
+      state.unfollowLoading = false;
+      state.unfollowDone = true;
+      state.myData.Followings = state.myData.Followings.filter((v) => v !== action.data.userId);
+    })
+    .addCase(UNFOLLOW_FAILURE, (state, action) => {
+      state.unfollowLoading = false;
+      state.unfollowError = action.error;
     });
 });
 

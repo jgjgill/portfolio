@@ -16,6 +16,7 @@ import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
 import { removePostAction } from '../../../reducers/postActionCreator';
 import CommentContent from './CommentContent';
+import FollowButton from './FollowButton';
 
 const CardWrapper = styled(Card)`
   margin-bottom: 10px;
@@ -76,6 +77,7 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
+        extra={id && <FollowButton post={post} />}
       >
         <Card.Meta
           title={post.User.nickname}

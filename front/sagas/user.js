@@ -19,6 +19,12 @@ import {
   AVATAR_CHANGE_REQUEST,
   AVATAR_CHANGE_FAILURE,
   AVATAR_CHANGE_SUCCESS,
+  FOLLOW_REQUEST,
+  UNFOLLOW_REQUEST,
+  FOLLOW_FAILURE,
+  FOLLOW_SUCCESS,
+  UNFOLLOW_SUCCESS,
+  UNFOLLOW_FAILURE,
 } from '../reducers/action';
 
 function loginAPI(data) {
@@ -146,6 +152,48 @@ function* descriptionChange(action) {
   }
 }
 
+function followAPI(data) {
+  return axios.post('user/follow', data);
+}
+function* follow(action) {
+  try {
+    yield delay(1000);
+    // const result = yield call(followAPI, action.payload);
+    yield put({
+      type: FOLLOW_SUCCESS,
+      // data: result.data
+      data: action.payload,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: FOLLOW_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function unfollowAPI(data) {
+  return axios.post('user/unfollow', data);
+}
+function* unfollow(action) {
+  try {
+    yield delay(1000);
+    // const result = yield call(unfollowAPI, action.payload);
+    yield put({
+      type: UNFOLLOW_SUCCESS,
+      // data: result.data
+      data: action.payload,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UNFOLLOW_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
@@ -164,6 +212,12 @@ function* watchDescriptionChange() {
 function* watchSignup() {
   yield takeLatest(SIGN_UP_REQUEST, signup);
 }
+function* watchFollow() {
+  yield takeLatest(FOLLOW_REQUEST, follow);
+}
+function* watchUnfollow() {
+  yield takeLatest(UNFOLLOW_REQUEST, unfollow);
+}
 
 export default function* userSaga() {
   yield all([
@@ -173,5 +227,7 @@ export default function* userSaga() {
     fork(watchNicknameChange),
     fork(watchDescriptionChange),
     fork(watchSignup),
+    fork(watchFollow),
+    fork(watchUnfollow),
   ]);
 }
