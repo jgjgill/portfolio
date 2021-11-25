@@ -1,9 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../../../hooks/useInput';
-import { signupAction } from '../../../reducers/userActionCreator';
+import { signupAction, signupRestAction } from '../../../reducers/userActionCreator';
 
 const FormItemWrapper = styled(Form.Item)`
   margin-bottom: 10px;
@@ -19,7 +19,7 @@ const CheckboxWrapper = styled.div`
 
 const SignupForm = () => {
   const dispatch = useDispatch();
-  const { signupLoading } = useSelector((state) => state.user);
+  const { signupLoading, signupError } = useSelector((state) => state.user);
 
   const [username, onChangeUsername] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -50,6 +50,8 @@ const SignupForm = () => {
     [term],
   );
 
+  const usernameRef = useRef();
+
   useEffect(() => {
     password === passwordCheck
       ? setPasswordError(() => false)
@@ -66,6 +68,14 @@ const SignupForm = () => {
     console.log(username, nickname, password);
   }, [username, nickname, termError, passwordError]);
 
+  useEffect(() => {
+    if (signupError) {
+      alert(signupError);
+      dispatch(signupRestAction());
+      usernameRef.current.focus();
+    }
+  }, [signupError, username]);
+
   return (
     <Form onFinish={onSubmit} layout="vertical">
       <FormItemWrapper label="Username">
@@ -75,6 +85,7 @@ const SignupForm = () => {
             value={username}
             required
             placeholder="username"
+            ref={usernameRef}
           />
         </Form.Item>
       </FormItemWrapper>

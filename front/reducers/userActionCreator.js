@@ -5,8 +5,8 @@ import {
   NICKNAME_CHANGE_REQUEST,
   DESCRIPTION_CHANGE_REQUEST,
   SIGN_UP_REQUEST,
+  SIGN_UP_RESET,
   AVATAR_CHANGE_REQUEST,
-  SIGN_UP_DONE_RESET,
   FOLLOW_REQUEST,
   UNFOLLOW_REQUEST,
 } from './action';
@@ -15,7 +15,7 @@ export const loginRequestAction = createAction(LOG_IN_REQUEST);
 export const logoutRequestAction = createAction(LOG_OUT_REQUEST);
 
 export const signupAction = createAction(SIGN_UP_REQUEST);
-export const signUpDoneRestAction = createAction(SIGN_UP_DONE_RESET);
+export const signupRestAction = createAction(SIGN_UP_RESET);
 
 export const avatarChangeAction = createAction(AVATAR_CHANGE_REQUEST);
 export const nicknameChangeAction = createAction(NICKNAME_CHANGE_REQUEST);

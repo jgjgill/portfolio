@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import AppLayout from '../components/layouts/AppLayout';
 import SignupForm from '../components/contents/signup/SignupForm';
-import { signUpDoneRestAction } from '../reducers/userActionCreator';
+import { signupRestAction } from '../reducers/userActionCreator';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const Signup = () => {
   useEffect(() => {
     if (signupDone) {
       router.push('/');
-      dispatch(signUpDoneRestAction());
+      dispatch(signupRestAction());
     }
   }, [signupDone]);
 

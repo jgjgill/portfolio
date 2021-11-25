@@ -9,6 +9,7 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  SIGN_UP_RESET,
   AVATAR_CHANGE_REQUEST,
   AVATAR_CHANGE_SUCCESS,
   AVATAR_CHANGE_FAILURE,
@@ -26,7 +27,6 @@ import {
   UNFOLLOW_FAILURE,
 
 } from './action';
-import { signUpDoneRestAction } from './userActionCreator';
 import userState from './userState';
 
 const dummyUser = (data) => ({
@@ -83,8 +83,9 @@ const reducer = createReducer(userState, (builder) => {
       state.signupError = action.error;
     })
 
-    .addCase(signUpDoneRestAction, (state) => {
+    .addCase(SIGN_UP_RESET, (state) => {
       state.signupDone = false;
+      state.signupError = null;
     })
 
     .addCase(AVATAR_CHANGE_REQUEST, (state) => {
