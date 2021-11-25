@@ -21,7 +21,7 @@ const SignupForm = () => {
   const dispatch = useDispatch();
   const { signupLoading } = useSelector((state) => state.user);
 
-  const [id, onChangeId] = useInput('');
+  const [username, onChangeUsername] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
 
   const [password, setPassword] = useState('');
@@ -60,19 +60,19 @@ const SignupForm = () => {
 
   const onSubmit = useCallback(() => {
     if (!(passwordError || termError)) {
-      dispatch(signupAction({ id, nickname, password }));
+      dispatch(signupAction({ username, nickname, password }));
     }
 
-    console.log(id, nickname, password);
-  }, [id, nickname, termError, passwordError]);
+    console.log(username, nickname, password);
+  }, [username, nickname, termError, passwordError]);
 
   return (
     <Form onFinish={onSubmit} layout="vertical">
       <FormItemWrapper label="Username">
         <Form.Item name="signup_username" noStyle>
           <Input
-            onChange={onChangeId}
-            value={id}
+            onChange={onChangeUsername}
+            value={username}
             required
             placeholder="username"
           />

@@ -28,7 +28,7 @@ const MovieRank = () => {
           boxOfficeResult: { dailyBoxOfficeList: movies },
         },
       } = await axios.get(
-        `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${''}&targetDt=${yesterday}`,
+        `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${process.env.NEXT_PUBLIC_MOVIE_KEY}&targetDt=${yesterday}`,
       );
 
       setMoviesList({ movies });
@@ -41,7 +41,7 @@ const MovieRank = () => {
   }, []);
 
   useEffect(() => {
-    // getMovies();
+    getMovies();
   }, []);
 
   return (
