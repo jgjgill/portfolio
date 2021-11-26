@@ -80,8 +80,6 @@ const SignupForm = () => {
     }
   }, [signupError, username]);
 
-  // const notify = () =>
-
   return (
     <Form onFinish={onSubmit} layout="vertical">
       <FormItemWrapper label="Username">
@@ -128,7 +126,7 @@ const SignupForm = () => {
           />
         </Form.Item>
         {passwordError && (
-        <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
+          <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
         )}
       </FormItemWrapper>
 

@@ -51,12 +51,10 @@ function logoutAPI(data) {
 }
 function* logout(action) {
   try {
-    yield delay(1000);
-    // const result = yield call(logoutAPI, action.payload);
+    const result = yield call(logoutAPI, action.payload);
     yield put({
       type: LOG_OUT_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

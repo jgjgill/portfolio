@@ -1,8 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Input, Button, Checkbox } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 import useInput from '../../hooks/useInput';
 import { loginRequestAction } from '../../reducers/userActionCreator';
@@ -21,7 +22,7 @@ const FormItemWrapper = styled(Form.Item)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { loginLoading } = useSelector((state) => state.user);
+  const { loginLoading, isLoggedIn } = useSelector((state) => state.user);
 
   const [username, onChangeUsername] = useInput('');
   const [password, onChangePassword] = useInput('');
@@ -29,6 +30,12 @@ const LoginForm = () => {
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ username, password }));
   }, [username, password]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      isLoggedIn || toast.success('logout');
+    });
+  }, [isLoggedIn]);
 
   return (
     <FormWrapper onFinish={onSubmitForm} layout="vertical">

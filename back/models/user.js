@@ -10,6 +10,10 @@ module.exports = class User extends Model {
           allowNull: false,
           unique: true,
         },
+        avatarNumber: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+        },
         nickname: {
           type: DataTypes.STRING(20),
           allowNull: false,
@@ -34,12 +38,12 @@ module.exports = class User extends Model {
     db.User.belongsToMany(db.Post, { through: 'Like', as: 'LikedPost' });
     db.User.belongsToMany(db.User, {
       through: 'Follow',
-      as: 'Follower',
+      as: 'Followers',
       foreignKey: 'FollowingId',
     });
     db.User.belongsToMany(db.User, {
       through: 'Follow',
-      as: 'Following',
+      as: 'Followings',
       foreignKey: 'FollowerId',
     });
   }

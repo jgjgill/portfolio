@@ -5,7 +5,7 @@ const userState = {
   logoutLoading: false,
   logoutError: null,
 
-  isLoggedIn: false,
+  isLoggedIn: null,
 
   signupLoading: false,
   signupDone: false,
@@ -33,6 +33,7 @@ const userState = {
 
   myData: {
     id: null,
+    username: null,
     avatarNumber: null,
     nickname: null,
     description: null,
@@ -40,6 +41,8 @@ const userState = {
     Followers: [],
     Followings: [],
   },
+
+  nowState: null,
 };
 
 export default userState;
