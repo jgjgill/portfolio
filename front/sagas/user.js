@@ -32,12 +32,10 @@ function loginAPI(data) {
 }
 function* login(action) {
   try {
-    yield delay(1000);
-    // const result = yield call(loginAPI, action.payload);
+    const result = yield call(loginAPI, action.payload);
     yield put({
       type: LOG_IN_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -70,7 +68,7 @@ function* logout(action) {
 }
 
 function signupAPI(data) {
-  return axios.post('http://localhost:3065/user/signup', data);
+  return axios.post('/user/signup', data);
 }
 function* signup(action) {
   // username, nickname, password

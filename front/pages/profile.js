@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 import AppLayout from '../components/layouts/AppLayout';
 import NicknameEditForm from '../components/contents/profile/NicknameEditForm';
 import FollowList from '../components/contents/profile/FollowList';
@@ -23,6 +24,7 @@ const Profile = () => {
   useEffect(() => {
     if (!isLoggedIn) {
       router.push('/');
+      toast.error('LOGIN!');
     }
   }, [isLoggedIn]);
 

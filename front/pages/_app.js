@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import 'antd/dist/antd.css';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/styles.css';
+import { ToastContainer } from 'react-toastify';
 
 import wrapper from '../store/configureStore';
 
@@ -13,6 +16,10 @@ const App = ({ Component }) => (
       <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet" />
     </Head>
     <Component />
+    <ToastContainer
+      theme="dark"
+      position="bottom-right"
+    />
   </>
 );
 

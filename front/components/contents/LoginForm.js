@@ -23,19 +23,19 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const { loginLoading } = useSelector((state) => state.user);
 
-  const [id, onChangeId] = useInput('');
+  const [username, onChangeUsername] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
-    dispatch(loginRequestAction({ id, password }));
-  }, [id, password]);
+    dispatch(loginRequestAction({ username, password }));
+  }, [username, password]);
 
   return (
     <FormWrapper onFinish={onSubmitForm} layout="vertical">
       <FormItemWrapper label="Username" name="username">
         <Input
-          onChange={onChangeId}
-          value={id}
+          onChange={onChangeUsername}
+          value={username}
           required
           placeholder="username"
         />

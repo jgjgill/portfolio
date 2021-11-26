@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import useInput from '../../../hooks/useInput';
 import { signupAction, signupRestAction } from '../../../reducers/userActionCreator';
 
@@ -70,11 +71,16 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (signupError) {
-      alert(signupError);
+      toast.error(signupError, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
       dispatch(signupRestAction());
       usernameRef.current.focus();
     }
   }, [signupError, username]);
+
+  // const notify = () =>
 
   return (
     <Form onFinish={onSubmit} layout="vertical">

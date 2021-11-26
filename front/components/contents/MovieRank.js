@@ -3,8 +3,10 @@ import axios from 'axios';
 import { List } from 'antd';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 const yesterday = dayjs().subtract(1, 'day').format('YYYYMMDD');
+const movieURL = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${process.env.NEXT_PUBLIC_MOVIE_KEY}&targetDt=${yesterday}`;
 
 const MovieList = styled(List)`
   background: #fff;
@@ -28,8 +30,30 @@ const MovieRank = () => {
           boxOfficeResult: { dailyBoxOfficeList: movies },
         },
       } = await axios.get(
-        `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${process.env.NEXT_PUBLIC_MOVIE_KEY}&targetDt=${yesterday}`,
+        movieURL,
       );
+
+      const response = await toast.promise(
+        fetch(movieURL),
+        {
+          pending: {
+            render() {
+              return 'boxoffice loading...';
+            },
+          },
+          success: {
+            render() {
+              return 'boxoffice success!';
+            },
+          },
+          error: {
+            render() {
+              return 'boxoffice error...';
+            },
+          },
+        },
+      );
+      console.log(response);
 
       setMoviesList({ movies });
       setMoviesLoading({ isLoading: false });
