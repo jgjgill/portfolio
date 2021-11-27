@@ -1,9 +1,11 @@
 const userState = {
   loginLoading: false,
   loginError: null,
+  loginState: false,
 
   logoutLoading: false,
   logoutError: null,
+  logoutState: false,
 
   isLoggedIn: null,
 

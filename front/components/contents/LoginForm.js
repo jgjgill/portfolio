@@ -22,18 +22,14 @@ const FormItemWrapper = styled(Form.Item)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { loginLoading, loginError, isLoggedIn } = useSelector((state) => state.user);
+  const { loginLoading, loginError } = useSelector((state) => state.user);
 
   const [username, onChangeUsername] = useInput('');
   const [password, onChangePassword] = useInput('');
 
-  useEffect(() => {
-    toast.success('logout');
-  }, []);
-
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ username, password }));
-  }, [username, password, isLoggedIn]);
+  }, [username, password]);
 
   useEffect(() => {
     loginError && toast.error(loginError, {

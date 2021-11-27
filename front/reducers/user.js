@@ -38,6 +38,8 @@ const reducer = createReducer(userState, (builder) => {
       // User.data
       state.loginLoading = false;
       state.isLoggedIn = true;
+      state.loginState = true;
+      state.logoutState = false;
       state.myData = action.data;
     })
     .addCase(LOG_IN_FAILURE, (state, action) => {
@@ -52,6 +54,8 @@ const reducer = createReducer(userState, (builder) => {
       // data
       state.logoutLoading = false;
       state.isLoggedIn = false;
+      state.logoutState = true;
+      state.loginState = false;
       state.myData = null;
     })
     .addCase(LOG_OUT_FAILURE, (state, action) => {

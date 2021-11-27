@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Avatar, Button } from 'antd';
 // import {} from "@ant-design/icons";
 import styled from 'styled-components';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
 
 import { logoutRequestAction } from '../../reducers/userActionCreator';
 
@@ -18,10 +17,6 @@ const UserProfile = () => {
 
   const onLogout = useCallback(() => {
     dispatch(logoutRequestAction());
-  }, []);
-
-  useEffect(() => {
-    toast.success('login');
   }, []);
 
   return (
