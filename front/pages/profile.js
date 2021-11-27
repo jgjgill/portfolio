@@ -18,22 +18,22 @@ const GlobalFlex = createGlobalStyle`
 `;
 
 const Profile = () => {
-  const { myData, isLoggedIn } = useSelector((state) => state.user);
+  const { myData } = useSelector((state) => state.user);
 
   const router = useRouter();
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!myData) {
       router.replace('/');
       toast.error('LOGIN!');
     }
-  }, [isLoggedIn]);
+  }, [myData]);
 
   return (
     <>
       <Head>
         <title>내 프로필 - jgjgill</title>
       </Head>
-      {isLoggedIn && (
+      {myData && (
       <AppLayout>
         <GlobalFlex />
         <AvatarChangeForm />

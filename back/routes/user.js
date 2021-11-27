@@ -3,10 +3,44 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 const { User, Post } = require('../models');
+const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 
 const router = express.Router();
 
-router.post('/login', (req, res, next) => {
+router.get('/mydata', async (req, res, next) => {
+  try {
+    if (req.user) {
+      const userData = await User.findOne({
+        where: { id: req.user.id },
+        attributes: {
+          exclude: ['password'],
+        },
+        include: [
+          {
+            model: Post,
+          },
+          {
+            model: User,
+            as: 'Followers',
+          },
+          {
+            model: User,
+            as: 'Followings',
+          },
+        ],
+      });
+      
+      return res.status(200).json(userData);
+    } else {
+      return res.status(200).json(null);
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (err, user, clientError) => {
     if (err) {
       console.error(err);
@@ -46,10 +80,10 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
-  res.status(200).send('LOGOUT!');
+  return res.status(200).send('LOGOUT!');
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -68,7 +102,23 @@ router.post('/signup', async (req, res, next) => {
       nickname: req.body.nickname,
       password: hashedPassword,
     });
+
     res.status(201).send('signup success');
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.patch('/avatarChange', async (req, res, next) => {
+  try {
+    console.log('req.user.id : ', req.user.id);
+    await User.update(
+      {
+        avatarNumber: req.body.myAvatar,
+      },
+      { where: { id: req.user.id } }
+    );
   } catch (err) {
     console.error(err);
     next(err);

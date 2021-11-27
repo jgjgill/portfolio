@@ -28,7 +28,7 @@ const LayoutFooter = styled(Layout.Footer)`
 `;
 
 const AppLayout = ({ children }) => {
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { myData } = useSelector((state) => state.user);
 
   return (
     <Layout>
@@ -39,7 +39,7 @@ const AppLayout = ({ children }) => {
       <LayoutContent>
         <Row>
           <Col xs={24} md={5}>
-            {isLoggedIn ? <UserProfile /> : <LoginForm />}
+            {myData ? <UserProfile /> : <LoginForm />}
           </Col>
           <Col xs={24} md={14}>
             {children}

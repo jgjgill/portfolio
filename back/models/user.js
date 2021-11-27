@@ -11,7 +11,7 @@ module.exports = class User extends Model {
           unique: true,
         },
         avatarNumber: {
-          type: DataTypes.INTEGER,
+          type: DataTypes.STRING(100),
           allowNull: true,
         },
         nickname: {

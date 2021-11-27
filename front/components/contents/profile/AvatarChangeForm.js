@@ -36,16 +36,15 @@ const AvatarChangeForm = () => {
 
   useEffect(() => {
     dispatch(avatarChangeAction({ myAvatar }));
+    // myAvatar;
   }, [myAvatar]);
 
-  console.log(myAvatar);
   return (
     <AvatarChangeWrapper>
       <AvatarImg
         src={`https://joeschmoe.io/api/v1/${myAvatar}`}
         size={grid}
       />
-      {/* <div>asd</div> */}
       <Button type="primary" onClick={onChangeAvatar} loading={changeAvatarLoading}>
         프로필 사진 변경
       </Button>

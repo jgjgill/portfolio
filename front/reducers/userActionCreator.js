@@ -9,7 +9,10 @@ import {
   AVATAR_CHANGE_REQUEST,
   FOLLOW_REQUEST,
   UNFOLLOW_REQUEST,
+  LOAD_MYDATA_REQUEST,
 } from './action';
+
+export const loadMyDataAction = createAction(LOAD_MYDATA_REQUEST);
 
 export const loginRequestAction = createAction(LOG_IN_REQUEST);
 export const logoutRequestAction = createAction(LOG_OUT_REQUEST);

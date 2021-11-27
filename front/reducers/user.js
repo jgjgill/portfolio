@@ -25,17 +25,35 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  LOAD_MYDATA_REQUEST,
+  LOAD_MYDATA_SUCCESS,
+  LOAD_MYDATA_FAILURE,
 
 } from './action';
 import userState from './userState';
 
 const reducer = createReducer(userState, (builder) => {
   builder
+    .addCase(LOAD_MYDATA_REQUEST, (state) => {
+      state.loadMydataLoading = true;
+      state.loadMydataDone = false;
+    })
+    .addCase(LOAD_MYDATA_SUCCESS, (state, action) => {
+      // data.userData
+      state.loadMydataLoading = false;
+      state.loadMydataDone = true;
+      state.myData = action.data;
+    })
+    .addCase(LOAD_MYDATA_FAILURE, (state, action) => {
+      state.loadMydataLoading = false;
+      state.loadMydataError = action.error;
+    })
+
     .addCase(LOG_IN_REQUEST, (state) => {
       state.loginLoading = true;
     })
     .addCase(LOG_IN_SUCCESS, (state, action) => {
-      // User.data
+      // data.userData
       state.loginLoading = false;
       state.isLoggedIn = true;
       state.loginState = true;

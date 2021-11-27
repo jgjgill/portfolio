@@ -18,11 +18,12 @@ db.sequelize
     console.log('db connected');
   })
   .catch(console.error);
+  passportConfig();
 
 app.use(
   cors({
     origin: true,
-    credentials: false,
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -31,8 +32,8 @@ app.use(
     extended: true,
   })
 );
-passportConfig();
 
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
   session({
     saveUninitialized: false,
@@ -42,7 +43,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cookieParser());
 
 app.use('/post', postRouter);
 app.use('/user', userRouter);

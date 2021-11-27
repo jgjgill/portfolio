@@ -25,12 +25,36 @@ import {
   FOLLOW_SUCCESS,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  LOAD_MYDATA_REQUEST,
+  LOAD_MYDATA_SUCCESS,
+  LOAD_MYDATA_FAILURE,
 } from '../reducers/action';
+
+function loadMydataAPI() {
+  return axios.get('/user/mydata');
+}
+function* loadMydata() {
+  // userData
+  try {
+    const result = yield call(loadMydataAPI);
+    yield put({
+      type: LOAD_MYDATA_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_MYDATA_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
 
 function loginAPI(data) {
   return axios.post('/user/login', data);
 }
 function* login(action) {
+  // username, password -> userData
   try {
     const result = yield call(loginAPI, action.payload);
     yield put({
@@ -86,15 +110,15 @@ function* signup(action) {
 }
 
 function avatarChangeAPI(data) {
-  return axios.post('/user/avatarChange', data);
+  return axios.patch('/user/avatarChange', data);
 }
 function* avatarChange(action) {
+  // myAvatar -> avatarNumber
   try {
-    yield delay(1000);
-    // const result = yield call(avatarChangeAPI, action.payload);
+    const result = yield call(avatarChangeAPI, action.payload);
     yield put({
       type: AVATAR_CHANGE_SUCCESS,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -189,6 +213,9 @@ function* unfollow(action) {
   }
 }
 
+function* watchLoadMydata() {
+  yield takeLatest(LOAD_MYDATA_REQUEST, loadMydata);
+}
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
@@ -216,6 +243,7 @@ function* watchUnfollow() {
 
 export default function* userSaga() {
   yield all([
+    fork(watchLoadMydata),
     fork(watchLogin),
     fork(watchLogout),
     fork(watchAvatarChange),

@@ -29,17 +29,6 @@ const SignupForm = () => {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
 
-  const [first, setFirst] = useState('asdasd');
-
-  console.log(first);
-  const onChangeFirst = (e) => {
-    setFirst(e.target.value);
-  };
-
-  const onFirst = () => {
-    setFirst('');
-  };
-
   const onChangePassword = useCallback(
     (e) => {
       setPassword(e.target.value);
@@ -92,76 +81,66 @@ const SignupForm = () => {
   }, [signupError, username]);
 
   return (
-    <>
-      <Form onFinish={onFirst}>
-        <Form.Item label="first">
-          <Form.Item name="form_first" noStyle>
-            <Input value={first} onChange={onChangeFirst} />
-          </Form.Item>
+    <Form onFinish={onSubmit} layout="vertical">
+      <FormItemWrapper label="Username">
+        <Form.Item name="signup_username" noStyle>
+          <Input
+            onChange={onChangeUsername}
+            value={username}
+            required
+            placeholder="username"
+            ref={usernameRef}
+          />
         </Form.Item>
-        <Button htmlType="submit">ok</Button>
-      </Form>
-      <Form onFinish={onSubmit} layout="vertical">
-        <FormItemWrapper label="Username">
-          <Form.Item name="signup_username" noStyle>
-            <Input
-              onChange={onChangeUsername}
-              value={username}
-              required
-              placeholder="username"
-              ref={usernameRef}
-            />
-          </Form.Item>
-        </FormItemWrapper>
+      </FormItemWrapper>
 
-        <FormItemWrapper label="Nickname">
-          <Form.Item name="signup_nickname" noStyle>
-            <Input
-              onChange={onChangeNickname}
-              value={nickname}
-              required
-              placeholder="nickname"
-            />
-          </Form.Item>
-        </FormItemWrapper>
+      <FormItemWrapper label="Nickname">
+        <Form.Item name="signup_nickname" noStyle>
+          <Input
+            onChange={onChangeNickname}
+            value={nickname}
+            required
+            placeholder="nickname"
+          />
+        </Form.Item>
+      </FormItemWrapper>
 
-        <FormItemWrapper label="Password">
-          <Form.Item name="signup_password" noStyle>
-            <Input.Password
-              onChange={onChangePassword}
-              value={password}
-              required
-              placeholder="password"
-            />
-          </Form.Item>
-        </FormItemWrapper>
+      <FormItemWrapper label="Password">
+        <Form.Item name="signup_password" noStyle>
+          <Input.Password
+            onChange={onChangePassword}
+            value={password}
+            required
+            placeholder="password"
+          />
+        </Form.Item>
+      </FormItemWrapper>
 
-        <FormItemWrapper label="PasswordCheck">
-          <Form.Item name="signup_passwordCheck" noStyle>
-            <Input.Password
-              onChange={onChangePasswordCheck}
-              value={passwordCheck}
-              required
-              placeholder="passwordCheck"
-            />
-          </Form.Item>
-          {passwordError && (
+      <FormItemWrapper label="PasswordCheck">
+        <Form.Item name="signup_passwordCheck" noStyle>
+          <Input.Password
+            onChange={onChangePasswordCheck}
+            value={passwordCheck}
+            required
+            placeholder="passwordCheck"
+          />
+        </Form.Item>
+        {passwordError && (
           <ErrorMessage>비밀번호가 일치하지 않습니다.</ErrorMessage>
-          )}
-        </FormItemWrapper>
+        )}
+      </FormItemWrapper>
 
-        <CheckboxWrapper>
-          <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
-            회원가입 확인!
-          </Checkbox>
-          {termError && <ErrorMessage>체크해주세요!</ErrorMessage>}
-        </CheckboxWrapper>
+      <CheckboxWrapper>
+        <Checkbox name="user-term" checked={term} onChange={onChangeTerm}>
+          회원가입 확인!
+        </Checkbox>
+        {termError && <ErrorMessage>체크해주세요!</ErrorMessage>}
+      </CheckboxWrapper>
 
-        <Button htmlType="submit" loading={signupLoading}>
-          Submit
-        </Button>
-      </Form>
-    </>
+      <Button htmlType="submit" loading={signupLoading}>
+        Submit
+      </Button>
+    </Form>
   );
 };
 
