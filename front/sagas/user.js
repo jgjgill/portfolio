@@ -70,12 +70,12 @@ function* login(action) {
   }
 }
 
-function logoutAPI(data) {
-  return axios.post('/user/logout', data);
+function logoutAPI() {
+  return axios.post('/user/logout');
 }
-function* logout(action) {
+function* logout() {
   try {
-    const result = yield call(logoutAPI, action.payload);
+    const result = yield call(logoutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
       data: result.data,

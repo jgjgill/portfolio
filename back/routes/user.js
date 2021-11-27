@@ -29,7 +29,7 @@ router.get('/mydata', async (req, res, next) => {
           },
         ],
       });
-      
+
       return res.status(200).json(userData);
     } else {
       return res.status(200).json(null);
@@ -83,7 +83,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
 router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
-  return res.status(200).send('LOGOUT!');
+  return res.status(200).send('LOGOUT');
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -103,7 +103,7 @@ router.post('/signup', async (req, res, next) => {
       password: hashedPassword,
     });
 
-    res.status(201).send('signup success');
+    return res.status(201).send('signup success');
   } catch (err) {
     console.error(err);
     next(err);
@@ -119,6 +119,7 @@ router.patch('/avatarChange', async (req, res, next) => {
       },
       { where: { id: req.user.id } }
     );
+    return res.status(200).json({ avatarNumber: req.body.myAvatar });
   } catch (err) {
     console.error(err);
     next(err);

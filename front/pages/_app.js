@@ -17,7 +17,7 @@ const App = ({ Component }) => {
 
   useEffect(() => {
     loginState && toast.success('login');
-    logoutState && toast.success('logout');
+    logoutState && toast.success(logoutState);
   }, [loginState, logoutState]);
 
   useEffect(() => {

@@ -69,10 +69,10 @@ const reducer = createReducer(userState, (builder) => {
       state.logoutLoading = true;
     })
     .addCase(LOG_OUT_SUCCESS, (state, action) => {
-      // data
+      // data.'LOGOUT'
       state.logoutLoading = false;
       state.isLoggedIn = false;
-      state.logoutState = true;
+      state.logoutState = action.data;
       state.loginState = false;
       state.myData = null;
     })
@@ -105,9 +105,10 @@ const reducer = createReducer(userState, (builder) => {
       state.changeAvatarDone = false;
     })
     .addCase(AVATAR_CHANGE_SUCCESS, (state, action) => {
+      // data.avatarNumber
       state.changeAvatarLoading = false;
       state.changeAvatarDone = true;
-      state.myData.avatarNumber = action.data.myAvatar;
+      state.myData.avatarNumber = action.data.avatarNumber;
     })
     .addCase(AVATAR_CHANGE_FAILURE, (state, action) => {
       state.changeAvatarLoading = false;
