@@ -5,6 +5,7 @@ import { Card, Avatar, Button } from 'antd';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
+
 import { logoutRequestAction } from '../../reducers/userActionCreator';
 
 const CardWrapper = styled(Card)`
@@ -13,15 +14,15 @@ const CardWrapper = styled(Card)`
 
 const UserProfile = () => {
   const dispatch = useDispatch();
-  const { myData, logoutLoading, isLoggedIn } = useSelector((state) => state.user);
+  const { myData, logoutLoading } = useSelector((state) => state.user);
 
   const onLogout = useCallback(() => {
     dispatch(logoutRequestAction());
   }, []);
 
   useEffect(() => {
-    isLoggedIn && toast.success('login');
-  }, [isLoggedIn]);
+    toast.success('login');
+  }, []);
 
   return (
     <>

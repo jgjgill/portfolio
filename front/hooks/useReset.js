@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 
-export default (resetValue, setResetValue) => {
+export const useReset = (resetValue, setResetValue) => {
   useEffect(() => {
     if (resetValue) {
       setResetValue('');
     }
   }, [resetValue]);
 };
+
+export default useReset;

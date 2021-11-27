@@ -41,8 +41,6 @@ const userState = {
     Followers: [],
     Followings: [],
   },
-
-  nowState: null,
 };
 
 export default userState;

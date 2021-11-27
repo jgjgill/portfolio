@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
+
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';

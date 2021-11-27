@@ -5,8 +5,8 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
-import useInput from '../../hooks/useInput';
 import { loginRequestAction } from '../../reducers/userActionCreator';
+import { useInput } from '../../hooks/useInput';
 
 const ButtonWrapper = styled.div`
   /* margin-left: 10px; */
@@ -22,20 +22,24 @@ const FormItemWrapper = styled(Form.Item)`
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const { loginLoading, isLoggedIn } = useSelector((state) => state.user);
+  const { loginLoading, loginError, isLoggedIn } = useSelector((state) => state.user);
 
   const [username, onChangeUsername] = useInput('');
   const [password, onChangePassword] = useInput('');
 
+  useEffect(() => {
+    toast.success('logout');
+  }, []);
+
   const onSubmitForm = useCallback(() => {
     dispatch(loginRequestAction({ username, password }));
-  }, [username, password]);
+  }, [username, password, isLoggedIn]);
 
   useEffect(() => {
-    setTimeout(() => {
-      isLoggedIn || toast.success('logout');
+    loginError && toast.error(loginError, {
+      position: toast.POSITION.TOP_CENTER,
     });
-  }, [isLoggedIn]);
+  }, [loginError]);
 
   return (
     <FormWrapper onFinish={onSubmitForm} layout="vertical">

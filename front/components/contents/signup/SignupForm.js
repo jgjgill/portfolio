@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import useInput from '../../../hooks/useInput';
+import { useInput } from '../../../hooks/useInput';
 import { signupAction, signupRestAction } from '../../../reducers/userActionCreator';
 
 const FormItemWrapper = styled(Form.Item)`
@@ -83,7 +83,7 @@ const SignupForm = () => {
   return (
     <Form onFinish={onSubmit} layout="vertical">
       <FormItemWrapper label="Username">
-        <Form.Item name="signup_username" noStyle>
+        <Form.Item name="signup_username">
           <Input
             onChange={onChangeUsername}
             value={username}

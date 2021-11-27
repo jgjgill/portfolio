@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Menu, Input } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import useInput from '../hooks/useInput';
+import { useInput } from '../hooks/useInput';
 
 const SearchInput = styled(Input.Search)`
   vertical-align: middle;

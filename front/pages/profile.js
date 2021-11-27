@@ -23,7 +23,7 @@ const Profile = () => {
   const router = useRouter();
   useEffect(() => {
     if (!isLoggedIn) {
-      router.push('/');
+      router.replace('/');
       toast.error('LOGIN!');
     }
   }, [isLoggedIn]);

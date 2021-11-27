@@ -29,16 +29,6 @@ import {
 } from './action';
 import userState from './userState';
 
-const dummyUser = (data) => ({
-  id: data.id,
-  avatarNumber: 70,
-  nickname: 'first_people',
-  description: 'my first description',
-  Posts: [1, 2],
-  Followers: ['gil', 'jgjg2', 'jjj'],
-  Followings: ['jgjg1', 'jgjg2'],
-});
-
 const reducer = createReducer(userState, (builder) => {
   builder
     .addCase(LOG_IN_REQUEST, (state) => {
@@ -63,7 +53,6 @@ const reducer = createReducer(userState, (builder) => {
       state.logoutLoading = false;
       state.isLoggedIn = false;
       state.myData = null;
-      state.nowState = action.data;
     })
     .addCase(LOG_OUT_FAILURE, (state, action) => {
       state.logoutLoading = false;
