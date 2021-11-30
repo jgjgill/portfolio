@@ -10,11 +10,13 @@ import {
   FOLLOW_REQUEST,
   UNFOLLOW_REQUEST,
   LOAD_MYDATA_REQUEST,
+  LOG_IN_RESET,
 } from './action';
 
 export const loadMyDataAction = createAction(LOAD_MYDATA_REQUEST);
 
 export const loginRequestAction = createAction(LOG_IN_REQUEST);
+export const loginResetAction = createAction(LOG_IN_RESET);
 export const logoutRequestAction = createAction(LOG_OUT_REQUEST);
 
 export const signupAction = createAction(SIGN_UP_REQUEST);

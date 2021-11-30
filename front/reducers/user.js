@@ -28,6 +28,7 @@ import {
   LOAD_MYDATA_REQUEST,
   LOAD_MYDATA_SUCCESS,
   LOAD_MYDATA_FAILURE,
+  LOG_IN_RESET,
 
 } from './action';
 import userState from './userState';
@@ -63,6 +64,11 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(LOG_IN_FAILURE, (state, action) => {
       state.loginLoading = false;
       state.loginError = action.error;
+    })
+
+    .addCase(LOG_IN_RESET, (state) => {
+      state.loginLoading = false;
+      state.loginError = null;
     })
 
     .addCase(LOG_OUT_REQUEST, (state) => {

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
-import { loginRequestAction } from '../../reducers/userActionCreator';
+import { loginRequestAction, loginResetAction } from '../../reducers/userActionCreator';
 import { useInput } from '../../hooks/useInput';
 
 const ButtonWrapper = styled.div`
@@ -32,9 +32,12 @@ const LoginForm = () => {
   }, [username, password]);
 
   useEffect(() => {
-    loginError && toast.error(loginError, {
-      position: toast.POSITION.TOP_CENTER,
-    });
+    if (loginError) {
+      toast.error(loginError, {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      dispatch(loginResetAction());
+    }
   }, [loginError]);
 
   return (
