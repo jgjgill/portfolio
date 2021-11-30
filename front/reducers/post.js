@@ -33,18 +33,6 @@ export const generateDummyPost = (number) => Array(number).fill().map(() => ({
   Comments: [],
 }));
 
-const dummyPost = (data) => ({
-  id: shortid.generate(),
-  User: {
-    id: 2,
-    nickname: 'secondpeople',
-  },
-  content: data.postText,
-  rateNumber: data.rateValue,
-  Images: [],
-  Comments: [],
-});
-
 const dummyComment = (data) => ({
   User: {
     id: data.myDataId,
@@ -77,9 +65,10 @@ const reducer = createReducer(postState, (builder) => {
       state.addPostDone = false;
     })
     .addCase(ADD_POST_SUCCESS, (state, action) => {
+      // data.postData
       state.addPostLoading = false;
       state.addPostDone = true;
-      state.mainPosts.unshift(dummyPost(action.data));
+      state.mainPosts.unshift(action.data);
     })
     .addCase(ADD_POST_FAILURE, (state, action) => {
       state.addPostLoading = false;

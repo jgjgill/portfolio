@@ -2,7 +2,7 @@ import { Button, Form, Input, Rate } from 'antd';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import useInput from '../../../hooks/useInput';
+import { useInput } from '../../../hooks/useInput';
 import { addPostAction } from '../../../reducers/postActionCreator';
 
 const FormWrapper = styled(Form)`
@@ -25,6 +25,7 @@ const PostForm = () => {
   const { imagePaths, addPostLoading, addPostDone } = useSelector(
     (state) => state.post,
   );
+
   const dispatch = useDispatch();
   const [postText, onChangePostText, setPostText] = useInput('');
   const [rateValue, setRateValue] = useState(5);
@@ -38,7 +39,7 @@ const PostForm = () => {
   }, [addPostDone]);
 
   const onSubmitForm = useCallback(() => {
-    dispatch(addPostAction({ postText, rateValue }));
+    dispatch(addPostAction({ postText, rateNumber: rateValue }));
   }, [postText, rateValue]);
 
   const onClickImageUpload = useCallback(() => {

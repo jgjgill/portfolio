@@ -110,7 +110,7 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
-router.patch('/avatarChange', async (req, res, next) => {
+router.patch('/avatarChange', isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
       {
@@ -125,7 +125,7 @@ router.patch('/avatarChange', async (req, res, next) => {
   }
 });
 
-router.patch('/nicknameChange', async (req, res, next) => {
+router.patch('/nicknameChange', isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
       {
@@ -140,7 +140,7 @@ router.patch('/nicknameChange', async (req, res, next) => {
   }
 });
 
-router.patch('/descriptionChange', async (req, res, next) => {
+router.patch('/descriptionChange', isLoggedIn, async (req, res, next) => {
   try {
     await User.update(
       {
@@ -155,12 +155,22 @@ router.patch('/descriptionChange', async (req, res, next) => {
   }
 });
 
-router.post('/follow', (req, res, next) => {
-
+router.post('/follow', isLoggedIn, async (req, res, next) => {
+ try {
+  
+ } catch (err) {
+   console.error(err)
+   next(err)
+ }
 })
 
-router.post('/unfollow', (req, res, next) => {
+router.post('/unfollow', isLoggedIn, (req, res, next) => {
+  try {
 
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
 })
 
 module.exports = router;

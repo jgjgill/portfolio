@@ -44,13 +44,14 @@ function addPostAPI(data) {
   return axios.post('/post/addPost', data);
 }
 function* addPost(action) {
+  // id, nickname,avatarNumber
+  // postText -> content, rateValue
   try {
-    yield delay(1000);
-    // const result = yield call(addPostAPI, action.payload);
+    const result = yield call(addPostAPI, action.payload);
+    console.log(result.data);
     yield put({
       type: ADD_POST_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

@@ -173,6 +173,7 @@ function followAPI(data) {
   return axios.post('user/follow', data);
 }
 function* follow(action) {
+  // userId
   try {
     yield delay(1000);
     // const result = yield call(followAPI, action.payload);
@@ -194,6 +195,7 @@ function unfollowAPI(data) {
   return axios.post('user/unfollow', data);
 }
 function* unfollow(action) {
+  // userId
   try {
     yield delay(1000);
     // const result = yield call(unfollowAPI, action.payload);
