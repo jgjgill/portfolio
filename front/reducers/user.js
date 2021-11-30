@@ -120,6 +120,7 @@ const reducer = createReducer(userState, (builder) => {
       state.changeNicknameDone = false;
     })
     .addCase(NICKNAME_CHANGE_SUCCESS, (state, action) => {
+      // data.nickname
       state.changeNicknameLoading = false;
       state.changeNicknameDone = true;
       state.myData.nickname = action.data.nickname;
@@ -134,6 +135,7 @@ const reducer = createReducer(userState, (builder) => {
       state.changeDescriptionDone = false;
     })
     .addCase(DESCRIPTION_CHANGE_SUCCESS, (state, action) => {
+      // data.description
       state.changeDescriptionLoading = false;
       state.changeDescriptionDone = true;
       state.myData.description = action.data.description;

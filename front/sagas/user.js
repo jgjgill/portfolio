@@ -130,16 +130,15 @@ function* avatarChange(action) {
 }
 
 function nicknameChangeAPI(data) {
-  return axios.post('/user/nicknameChange', data);
+  return axios.patch('/user/nicknameChange', data);
 }
 function* nicknameChange(action) {
+  // nickname
   try {
-    yield delay(1000);
-    // const result = yield call(nicknameChangeAPI, action.payload);
+    const result = yield call(nicknameChangeAPI, action.payload);
     yield put({
       type: NICKNAME_CHANGE_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -151,16 +150,15 @@ function* nicknameChange(action) {
 }
 
 function descriptionChangeAPI(data) {
-  return axios.post('/user/descriptionChange', data);
+  return axios.patch('/user/descriptionChange', data);
 }
 function* descriptionChange(action) {
+  // description
   try {
-    yield delay(1000);
-    // const result = yield call(descriptionChangeAPI, action.payload);
+    const result = yield call(descriptionChangeAPI, action.payload);
     yield put({
       type: DESCRIPTION_CHANGE_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

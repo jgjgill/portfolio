@@ -112,7 +112,6 @@ router.post('/signup', async (req, res, next) => {
 
 router.patch('/avatarChange', async (req, res, next) => {
   try {
-    console.log('req.user.id : ', req.user.id);
     await User.update(
       {
         avatarNumber: req.body.myAvatar,
@@ -125,5 +124,43 @@ router.patch('/avatarChange', async (req, res, next) => {
     next(err);
   }
 });
+
+router.patch('/nicknameChange', async (req, res, next) => {
+  try {
+    await User.update(
+      {
+        nickname: req.body.nickname,
+      },
+      { where: { id: req.user.id } }
+    );
+    return res.status(200).json({ nickname: req.body.nickname });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.patch('/descriptionChange', async (req, res, next) => {
+  try {
+    await User.update(
+      {
+        description: req.body.description,
+      },
+      { where: { id: req.user.id } }
+    );
+    return res.status(200).json({ description: req.body.description });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.post('/follow', (req, res, next) => {
+
+})
+
+router.post('/unfollow', (req, res, next) => {
+
+})
 
 module.exports = router;
