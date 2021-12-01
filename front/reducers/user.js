@@ -91,7 +91,7 @@ const reducer = createReducer(userState, (builder) => {
       state.signupLoading = true;
       state.signupDone = false;
     })
-    .addCase(SIGN_UP_SUCCESS, (state, action) => {
+    .addCase(SIGN_UP_SUCCESS, (state) => {
       // data.username, data.nickname, data.password
       state.signupLoading = false;
       state.signupDone = true;

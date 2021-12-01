@@ -4,21 +4,24 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 
-const userRouter = require('./routes/user');
+const postsRouter = require('./routes/posts');
 const postRouter = require('./routes/post');
+const userRouter = require('./routes/user');
 const db = require('./models');
 const passportConfig = require('./passport');
 
 dotenv.config();
 const app = express();
 db.sequelize
-  .sync()
-  .then(() => {
-    console.log('db connected');
-  })
-  .catch(console.error);
-  passportConfig();
+.sync()
+.then(() => {
+  console.log('db connected');
+})
+.catch(console.error);
+passportConfig();
+app.use(morgan('dev'));
 
 app.use(
   cors({
@@ -44,9 +47,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/posts', postsRouter);
 app.use('/post', postRouter);
 app.use('/user', userRouter);
-
 
 app.listen(3065, () => {
   console.log('server start');

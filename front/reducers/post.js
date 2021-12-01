@@ -1,6 +1,4 @@
-import shortid from 'shortid';
 import { createReducer } from '@reduxjs/toolkit';
-import faker from 'faker';
 import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
@@ -19,29 +17,6 @@ import {
   REMOVE_COMMENT_FAILURE,
 } from './action';
 import postState from './postState';
-
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-  id: shortid.generate(),
-  User: {
-    id: shortid.generate(),
-    nickname: faker.name.findName(),
-    avatarNumber: faker.datatype.number(),
-  },
-  content: faker.lorem.paragraph(),
-  rateNumber: Math.random() * 5,
-  Images: [{ src: faker.image.image() }, { src: faker.image.image() }],
-  Comments: [],
-}));
-
-const dummyComment = (data) => ({
-  User: {
-    id: data.myDataId,
-    nickname: 'zzzzzzzzzz',
-    avatarNumber: 40,
-  },
-  commentId: shortid.generate(),
-  content: data.commentText,
-});
 
 const reducer = createReducer(postState, (builder) => {
   builder

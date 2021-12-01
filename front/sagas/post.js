@@ -17,19 +17,17 @@ import {
   LOAD_POSTS_FAILURE,
   LOAD_POSTS_SUCCESS,
 } from '../reducers/action';
-import { generateDummyPost } from '../reducers/post';
 
 function loadPostsAPI(data) {
-  return axios.get('/post/loadPosts', data);
+  return axios.get('/posts/loadPosts', data);
 }
 function* loadPosts(action) {
+  // posts
   try {
-    yield delay(1000);
-    // const result = yield call(loadPostsAPI, action.payload);
+    const result = yield call(loadPostsAPI, action.payload);
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      // data: result.data,
-      data: generateDummyPost(10),
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -47,7 +45,6 @@ function* addPost(action) {
   // postText -> content, rateNumber, UserId
   try {
     const result = yield call(addPostAPI, action.payload);
-    console.log(result.data);
     yield put({
       type: ADD_POST_SUCCESS,
       data: result.data,
@@ -87,7 +84,6 @@ function addCommentAPI(data) {
 }
 function* addComment(action) {
   // commentText -> content, postId -> PostId, UserId
-  // myDataId 필요?
   try {
     const result = yield call(addCommentAPI, action.payload);
     yield put({

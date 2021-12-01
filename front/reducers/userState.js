@@ -1,5 +1,4 @@
 const userState = {
-
   loadMydataLoading: false,
   loadMydataDone: false,
   loadMydataError: null,
@@ -39,16 +38,6 @@ const userState = {
   unfollowError: null,
 
   myData: null,
-  // {
-  //   id: null,
-  //   username: null,
-  //   avatarNumber: null,
-  //   nickname: null,
-  //   description: null,
-  //   Posts: [],
-  //   Followers: [],
-  //   Followings: [],
-  // }
 };
 
 export default userState;

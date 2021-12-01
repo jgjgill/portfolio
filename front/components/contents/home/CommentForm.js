@@ -19,14 +19,13 @@ const CommentButtonWrapper = styled.div`
 
 const CommentForm = ({ post }) => {
   const dispatch = useDispatch();
-  const { myData } = useSelector((state) => state.user);
   const { addCommentLoading, addCommentDone } = useSelector((state) => state.post);
 
   const [commentText, onChangeCommentText, setCommentText] = useInput('');
 
   const onSubmitComment = useCallback(() => {
     dispatch(
-      addCommentAction({ commentText, postId: post.id, myDataId: myData.id }),
+      addCommentAction({ commentText, postId: post.id }),
     );
   }, [commentText]);
 
