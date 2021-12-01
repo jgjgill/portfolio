@@ -155,6 +155,24 @@ router.patch('/descriptionChange', isLoggedIn, async (req, res, next) => {
   }
 });
 
+
+
+router.post('/postsUpdate', isLoggedIn, async (req, res, next) => {
+  try {
+    await User.update({
+      model: Post,
+    })
+    
+
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
+
+
+
 router.post('/follow', isLoggedIn, async (req, res, next) => {
  try {
   

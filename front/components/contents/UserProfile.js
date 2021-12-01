@@ -5,7 +5,7 @@ import { Card, Avatar, Button } from 'antd';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import { logoutRequestAction } from '../../reducers/userActionCreator';
+import { logoutAction } from '../../reducers/userActionCreator';
 
 const CardWrapper = styled(Card)`
   margin-top: 10px;
@@ -16,7 +16,7 @@ const UserProfile = () => {
   const { myData, logoutLoading } = useSelector((state) => state.user);
 
   const onLogout = useCallback(() => {
-    dispatch(logoutRequestAction());
+    dispatch(logoutAction());
   }, []);
 
   return (

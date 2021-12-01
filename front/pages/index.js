@@ -7,6 +7,7 @@ import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';
 import { loadPostsAction } from '../reducers/postActionCreator';
+import { loadMyDataAction } from '../reducers/userActionCreator';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,10 @@ const Home = () => {
       dispatch(loadPostsAction({ lastId }));
     }
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
+
+  useEffect(() => {
+    dispatch(loadMyDataAction());
+  }, [mainPosts]);
 
   return (
     <>

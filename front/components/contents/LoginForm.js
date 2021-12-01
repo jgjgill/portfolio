@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
-import { loginRequestAction, loginResetAction } from '../../reducers/userActionCreator';
+import { loginAction, loginResetAction } from '../../reducers/userActionCreator';
 import { useInput } from '../../hooks/useInput';
 
 const ButtonWrapper = styled.div`
@@ -28,7 +28,7 @@ const LoginForm = () => {
   const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
-    dispatch(loginRequestAction({ username, password }));
+    dispatch(loginAction({ username, password }));
   }, [username, password]);
 
   useEffect(() => {
