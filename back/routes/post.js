@@ -37,7 +37,6 @@ router.post('/addPost', isLoggedIn, async (req, res, next) => {
         attributes: ['id']
       }]
     })
-    console.log(postData)
     return res.status(201).json(postData)
   } catch (err) {
     console.error(err)
@@ -47,6 +46,44 @@ router.post('/addPost', isLoggedIn, async (req, res, next) => {
 
 router.delete('/removePost', isLoggedIn, (req, res, next) => {
 
+})
+
+router.post('/:postId/addComment', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: {id: req.params.postId}
+    })
+    
+    if (!post) return res.status(403).send('NO POST!')
+
+    const comment = await Comment.create({
+      content: req.body.commentText,
+      PostId: parseInt(req.params.postId),
+      UserId: req.user.id
+    })
+    
+    const commentData = await Comment.findOne({
+      where: {id: comment.id},
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname', 'avatarNumber']
+      }]
+    })
+
+    return res.status(201).json(commentData)
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
+
+router.delete('/removeComment', isLoggedIn, async (req, res, next) => {
+  try {
+
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
 })
 
 module.exports = router;

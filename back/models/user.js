@@ -10,13 +10,13 @@ module.exports = class User extends Model {
           allowNull: false,
           unique: true,
         },
-        avatarNumber: {
-          type: DataTypes.STRING(100),
-          allowNull: true,
-        },
         nickname: {
           type: DataTypes.STRING(20),
           allowNull: false,
+        },
+        avatarNumber: {
+          type: DataTypes.STRING(100),
+          allowNull: true,
         },
         description: {
           type: DataTypes.STRING(100),

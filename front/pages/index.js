@@ -10,7 +10,7 @@ import { loadPostsAction } from '../reducers/postActionCreator';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { myData } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
@@ -28,7 +28,7 @@ const Home = () => {
         <title>홈 - jgjgil</title>
       </Head>
       <AppLayout>
-        {isLoggedIn && <PostForm />}
+        {myData && <PostForm />}
         {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}

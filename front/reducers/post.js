@@ -94,11 +94,12 @@ const reducer = createReducer(postState, (builder) => {
       state.addCommentDone = false;
     })
     .addCase(ADD_COMMENT_SUCCESS, (state, action) => {
-      // data.commentText, data.postId, data.myDataId
-      const post = state.mainPosts.find((v) => v.id === action.data.postId);
+      // data.content, data.PostId, data.UserId
+      // data.commentData
+      const post = state.mainPosts.find((v) => v.id === action.data.PostId);
       state.addCommentLoading = false;
       state.addCommentDone = true;
-      post.Comments.unshift(dummyComment(action.data));
+      post.Comments.unshift(action.data);
     })
     .addCase(ADD_COMMENT_FAILURE, (state, action) => {
       state.addCommentLoading = false;

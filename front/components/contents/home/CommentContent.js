@@ -25,7 +25,7 @@ const CommentContent = ({ commentData, postId }) => {
           />
         )}
       />
-      {myData.id === id && <Button type="danger" onClick={onRemoveComment}>삭제</Button>}
+      {myData?.id === id && <Button type="danger" onClick={onRemoveComment}>삭제</Button>}
     </>
   );
 };

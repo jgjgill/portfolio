@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import useInput from '../../../hooks/useInput';
-import useReset from '../../../hooks/useReset';
+import { useInput } from '../../../hooks/useInput';
+import { useReset } from '../../../hooks/useReset';
 import { addCommentAction } from '../../../reducers/postActionCreator';
 
 const FormItemWrapper = styled(Form.Item)`

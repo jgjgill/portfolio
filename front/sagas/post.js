@@ -44,8 +44,7 @@ function addPostAPI(data) {
   return axios.post('/post/addPost', data);
 }
 function* addPost(action) {
-  // id, nickname,avatarNumber
-  // postText -> content, rateValue
+  // postText -> content, rateNumber, UserId
   try {
     const result = yield call(addPostAPI, action.payload);
     console.log(result.data);
@@ -84,16 +83,16 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post('/post/addComment', data);
+  return axios.post(`/post/${data.postId}/addComment`, data);
 }
 function* addComment(action) {
+  // commentText -> content, postId -> PostId, UserId
+  // myDataId 필요?
   try {
-    yield delay(1000);
-    // const result = yield call(addCommentAPI, action.payload);
+    const result = yield call(addCommentAPI, action.payload);
     yield put({
       type: ADD_COMMENT_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
