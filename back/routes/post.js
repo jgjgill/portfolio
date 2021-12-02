@@ -58,7 +58,6 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
         UserId: req.user.id
       }
     })
-    console.log(Post)
     res.status(200).json({postId: parseInt(req.params.postId)})
   } catch (err) {
     console.error(err);
@@ -97,8 +96,17 @@ router.post('/:postId/addComment', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/removeComment', isLoggedIn, async (req, res, next) => {
+router.delete('/:postId/:commentId', isLoggedIn, async (req, res, next) => {
   try {
+    await Comment.destroy({
+      where: {
+        id: req.params.commentId,
+        PostId: req.params.postId,
+        UserId: req.user.id
+      }
+    })
+
+    return res.status(200).json({postId: parseInt(req.params.postId), commentId: parseInt(req.params.commentId)})
   } catch (err) {
     console.error(err);
     next(err);

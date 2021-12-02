@@ -98,7 +98,7 @@ const reducer = createReducer(postState, (builder) => {
       state.removeCommentLoading = false;
       state.removeCommentDone = true;
       post.Comments = post.Comments.filter(
-        (v) => v.commentId !== action.data.commentId,
+        (v) => v.id !== action.data.commentId,
       );
     })
     .addCase(REMOVE_COMMENT_FAILURE, (state, action) => {

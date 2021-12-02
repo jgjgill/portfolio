@@ -10,7 +10,7 @@ const CommentContent = ({ commentData, postId }) => {
   const id = commentData?.User.id;
 
   const onRemoveComment = useCallback(() => {
-    dispatch(removeCommentAction({ postId, commentId: commentData.commentId }));
+    dispatch(removeCommentAction({ postId, commentId: commentData.id }));
   });
 
   return (
@@ -34,7 +34,6 @@ CommentContent.propTypes = {
   commentData: PropTypes.shape({
     id: PropTypes.number,
     User: PropTypes.object,
-    commentId: PropTypes.any,
     content: PropTypes.string,
   }).isRequired,
   postId: PropTypes.number.isRequired,

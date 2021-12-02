@@ -105,16 +105,15 @@ function* addComment(action) {
 }
 
 function removeCommentAPI(data) {
-  return axios.delete('/post/removeComment', data);
+  return axios.delete(`/post/${data.postId}/${data.commentId}`);
 }
 function* removeComment(action) {
+  // postId, commentId
   try {
-    yield delay(1000);
-    // const result = yield call(removeCommentAPI, action.payload);
+    const result = yield call(removeCommentAPI, action.payload);
     yield put({
       type: REMOVE_COMMENT_SUCCESS,
-      // data: result.data,
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
