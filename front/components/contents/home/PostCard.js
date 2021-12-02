@@ -33,8 +33,21 @@ const PostCard = ({ post }) => {
   const [liked, setLiked] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
-  const onToggleLike = useCallback(() => {
-    id ? setLiked((prev) => !prev) : toast.error('login!!');
+  const onLike = useCallback(() => {
+    if (id) {
+      setLiked((prev) => !prev);
+      dispatch(likePostAction({ postId: post.id }));
+    } else {
+      toast.error('login!!');
+    }
+  }, [id]);
+
+  const onUnlike = useCallback(() => {
+    if (id) {
+      setLiked((prev) => !prev);
+    } else {
+      dispatch(unlikePostAction({ postId: post.id }));
+    }
   }, [id]);
 
   const onToggleComment = useCallback(() => {
@@ -46,9 +59,6 @@ const PostCard = ({ post }) => {
   }, []);
 
   useEffect(() => {
-    liked
-      ? dispatch(likePostAction({ postId: post.id }))
-      : dispatch(unlikePostAction({ postId: post.id }));
   }, [liked]);
 
   return (
@@ -61,10 +71,10 @@ const PostCard = ({ post }) => {
             <HeartTwoTone
               twoToneColor="#eb2f96"
               key="heart"
-              onClick={onToggleLike}
+              onClick={onUnlike}
             />
           ) : (
-            <HeartOutlined key="heart" onClick={onToggleLike} />
+            <HeartOutlined key="heart" onClick={onLike} />
           ),
           <MessageOutlined key="comment" onClick={onToggleComment} />,
           <Popover

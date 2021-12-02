@@ -50,7 +50,21 @@ router.post('/addPost', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/removePost', isLoggedIn, (req, res, next) => {});
+router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+  try {
+    await Post.destroy({
+      where: {
+        id: req.params.postId,
+        UserId: req.user.id
+      }
+    })
+    console.log(Post)
+    res.status(200).json({postId: parseInt(req.params.postId)})
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
 
 router.post('/:postId/addComment', isLoggedIn, async (req, res, next) => {
   try {
@@ -98,9 +112,6 @@ router.patch('/likePost', isLoggedIn, async (req, res, next) => {
       return res.status(403).send('no content!!!');
     }
     await post.addLiker(req.user.id);
-    console.log(post);
-    console.log(post.id);
-    console.log(req.user.id);
     res.status(201).json({ postId: post.id, UserId: req.user.id });
   } catch (err) {
     console.error(err);

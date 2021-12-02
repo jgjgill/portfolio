@@ -61,6 +61,7 @@ const reducer = createReducer(postState, (builder) => {
       state.removePostDone = false;
     })
     .addCase(REMOVE_POST_SUCCESS, (state, action) => {
+      // data.postId
       state.removePostLoading = false;
       state.removePostDone = true;
       state.mainPosts = state.mainPosts.filter((v) => v.id !== action.data.postId);
