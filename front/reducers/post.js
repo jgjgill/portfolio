@@ -115,7 +115,7 @@ const reducer = createReducer(postState, (builder) => {
       const post = state.mainPosts.find((v) => v.id === action.data.postId);
       state.likePostLoading = false;
       state.likePostDone = true;
-      post.Liker.push(action.data.UserId);
+      post.Liker.push({ id: action.data.UserId });
     })
     .addCase(LIKE_POST_FAILURE, (state, action) => {
       state.likePostLoading = false;
@@ -126,9 +126,12 @@ const reducer = createReducer(postState, (builder) => {
       state.unlikePostLoading = true;
       state.unlikePostDone = false;
     })
-    .addCase(UNLIKE_POST_SUCCESS, ((state) => {
+    .addCase(UNLIKE_POST_SUCCESS, ((state, action) => {
+      // data.postId, data.userId
+      const post = state.mainPosts.find((v) => v.id === action.data.postId);
       state.unlikePostLoading = false;
       state.unlikePostDone = true;
+      post.Liker = post.Liker.filter((v) => v.id !== action.data.userId);
     }))
     .addCase(UNLIKE_POST_FAILURE, ((state, action) => {
       state.unlikePostLoading = false;

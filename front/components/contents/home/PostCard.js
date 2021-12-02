@@ -30,25 +30,26 @@ const PostCard = ({ post }) => {
   const { myData } = useSelector((state) => state.user);
   const id = myData?.id;
 
-  const [liked, setLiked] = useState(false);
+  const [likeState, setLikeState] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
   const onLike = useCallback(() => {
     if (id) {
-      setLiked((prev) => !prev);
+      setLikeState((prev) => !prev);
       dispatch(likePostAction({ postId: post.id }));
     } else {
       toast.error('login!!');
     }
-  }, [id]);
+  }, [id, likeState]);
 
   const onUnlike = useCallback(() => {
     if (id) {
-      setLiked((prev) => !prev);
-    } else {
+      setLikeState((prev) => !prev);
       dispatch(unlikePostAction({ postId: post.id }));
+    } else {
+      toast.error('login!!');
     }
-  }, [id]);
+  }, [id, likeState]);
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
@@ -59,7 +60,8 @@ const PostCard = ({ post }) => {
   }, []);
 
   useEffect(() => {
-  }, [liked]);
+    setLikeState(post.Liker.find((v) => v.id === id));
+  }, [myData]);
 
   return (
     <>
@@ -67,7 +69,7 @@ const PostCard = ({ post }) => {
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
           <RetweetOutlined key="retweet" />,
-          liked ? (
+          likeState ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"
               key="heart"

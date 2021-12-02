@@ -55,10 +55,10 @@ router.delete('/:postId', isLoggedIn, async (req, res, next) => {
     await Post.destroy({
       where: {
         id: req.params.postId,
-        UserId: req.user.id
-      }
-    })
-    res.status(200).json({postId: parseInt(req.params.postId)})
+        UserId: req.user.id,
+      },
+    });
+    res.status(200).json({ postId: parseInt(req.params.postId) });
   } catch (err) {
     console.error(err);
     next(err);
@@ -102,11 +102,14 @@ router.delete('/:postId/:commentId', isLoggedIn, async (req, res, next) => {
       where: {
         id: req.params.commentId,
         PostId: req.params.postId,
-        UserId: req.user.id
-      }
-    })
+        UserId: req.user.id,
+      },
+    });
 
-    return res.status(200).json({postId: parseInt(req.params.postId), commentId: parseInt(req.params.commentId)})
+    return res.status(200).json({
+      postId: parseInt(req.params.postId),
+      commentId: parseInt(req.params.commentId),
+    });
   } catch (err) {
     console.error(err);
     next(err);
@@ -115,20 +118,30 @@ router.delete('/:postId/:commentId', isLoggedIn, async (req, res, next) => {
 
 router.patch('/likePost', isLoggedIn, async (req, res, next) => {
   try {
-    const post = await Post.findOne({ where: { id: req.body.postId } });
+    const post = await Post.findOne({
+      where: { id: req.body.postId },
+    });
     if (!post) {
       return res.status(403).send('no content!!!');
     }
     await post.addLiker(req.user.id);
-    res.status(201).json({ postId: post.id, UserId: req.user.id });
+
+    return res.status(201).json({ postId: post.id, UserId: req.user.id });
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
 
-router.delete('/unlikePost', isLoggedIn, async (req, res, next) => {
+router.delete('/:postId/like/toggle', isLoggedIn, async (req, res, next) => {
   try {
+    const post = await Post.findOne({ where: { id: req.params.postId } });
+    if (!post) {
+      return res.status(403).send('no content!');
+    }
+    await post.removeLiker(req.user.id);
+
+    return res.status(201).json({ postId: post.id, userId: req.user.id });
   } catch (err) {
     console.error(err);
     next(err);

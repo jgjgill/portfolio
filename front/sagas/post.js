@@ -1,4 +1,4 @@
-import { takeLatest, all, fork, call, put, delay } from 'redux-saga/effects';
+import { takeLatest, all, fork, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOAD_POSTS_REQUEST,
@@ -145,9 +145,10 @@ function* likePost(action) {
 }
 
 function unlikePostAPI(data) {
-  return axios.delete('/post/unlikePost', data);
+  return axios.delete(`/post/${data.postId}/like/toggle`);
 }
 function* unlikePost(action) {
+  // postId, userId
   try {
     const result = yield call(unlikePostAPI, action.payload);
     yield put({
