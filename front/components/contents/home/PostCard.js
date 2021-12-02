@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Card, Popover, Rate, List } from 'antd';
@@ -10,13 +10,15 @@ import {
   HeartTwoTone,
 } from '@ant-design/icons';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
-import { removePostAction } from '../../../reducers/postActionCreator';
+import { likePostAction, removePostAction, unlikePostAction } from '../../../reducers/postActionCreator';
 import CommentContent from './CommentContent';
 import FollowButton from './FollowButton';
+import LikeCount from './LikeCount';
 
 const CardWrapper = styled(Card)`
   margin-bottom: 10px;
@@ -32,8 +34,8 @@ const PostCard = ({ post }) => {
   const [commentFormOpened, setCommentFormOpened] = useState(false);
 
   const onToggleLike = useCallback(() => {
-    setLiked((prev) => !prev);
-  }, []);
+    id ? setLiked((prev) => !prev) : toast.error('login!!');
+  }, [id]);
 
   const onToggleComment = useCallback(() => {
     setCommentFormOpened((prev) => !prev);
@@ -42,6 +44,12 @@ const PostCard = ({ post }) => {
   const onRemovePost = useCallback(() => {
     dispatch(removePostAction({ postId: post.id }));
   }, []);
+
+  useEffect(() => {
+    liked
+      ? dispatch(likePostAction({ postId: post.id }))
+      : dispatch(unlikePostAction({ postId: post.id }));
+  }, [liked]);
 
   return (
     <>
@@ -77,7 +85,12 @@ const PostCard = ({ post }) => {
             <EllipsisOutlined />
           </Popover>,
         ]}
-        extra={id && <FollowButton post={post} />}
+        extra={(
+          <>
+            <LikeCount postLiked={post.Liker} />
+            {id && <FollowButton post={post} />}
+          </>
+      )}
       >
         <Card.Meta
           title={post.User.nickname}
@@ -118,6 +131,7 @@ PostCard.propTypes = {
     Images: PropTypes.arrayOf(PropTypes.object),
     Comments: PropTypes.arrayOf(PropTypes.object),
     createAt: PropTypes.object,
+    Liker: PropTypes.array,
   }).isRequired,
 };
 

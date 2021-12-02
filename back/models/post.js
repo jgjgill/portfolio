@@ -12,7 +12,7 @@ module.exports = class Post extends Model {
         rateNumber: {
           type: DataTypes.INTEGER,
           allowNull: false,
-        }
+        },
       },
       {
         modelName: 'Post',
@@ -29,6 +29,6 @@ module.exports = class Post extends Model {
     db.Post.belongsToMany(db.Hashtag, { through: 'PostHashtag' });
     db.Post.belongsToMany(db.User, { through: 'Like', as: 'Liker' });
     db.Post.belongsTo(db.User);
-    db.Post.belongsTo(db.Post, {as: 'Retweet'})
+    db.Post.belongsTo(db.Post, { as: 'Retweet' });
   }
 };

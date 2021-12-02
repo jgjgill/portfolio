@@ -23,6 +23,14 @@ const postState = {
   removeCommentLoading: false,
   removeCommentDone: false,
   removeCommentError: null,
+
+  likePostLoading: false,
+  likePostDone: false,
+  likePostError: null,
+
+  unlikePostLoading: false,
+  unlikePostDone: false,
+  unlikePostError: null,
 };
 
 export default postState;
