@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, Card, Popover, Rate, List } from 'antd';
+import { Avatar, Button, Card, Popover, Rate, List, Tooltip } from 'antd';
 import {
   EllipsisOutlined,
   MessageOutlined,
@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
@@ -101,6 +102,9 @@ const PostCard = ({ post }) => {
           <>
             <LikeCount postLiked={post.Liker} />
             {id && <FollowButton post={post} />}
+            <Tooltip title={dayjs(post.createdAt).format('YYYY/MM/DD HH/MM/ss')}>
+              <span>{`${dayjs().diff(post.createdAt, 'day')}일 전`}</span>
+            </Tooltip>
           </>
         )}
       >
@@ -109,7 +113,12 @@ const PostCard = ({ post }) => {
           description={(
             <>
               <div>{post.title}</div>
-              <PostCardContent postData={post.content} postId={post.id} />
+
+              <PostCardContent
+                postContent={post.content}
+                postId={post.id}
+                postCreatedAt={post.createdAt}
+              />
             </>
           )}
           avatar={(
@@ -148,7 +157,7 @@ PostCard.propTypes = {
     rateNumber: PropTypes.number,
     Images: PropTypes.arrayOf(PropTypes.object),
     Comments: PropTypes.arrayOf(PropTypes.object),
-    createAt: PropTypes.object,
+    createdAt: PropTypes.string,
     Liker: PropTypes.array,
   }).isRequired,
 };
