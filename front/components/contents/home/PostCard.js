@@ -102,7 +102,7 @@ const PostCard = ({ post }) => {
             <LikeCount postLiked={post.Liker} />
             {id && <FollowButton post={post} />}
           </>
-      )}
+        )}
       >
         <Card.Meta
           title={post.User.nickname}

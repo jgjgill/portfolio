@@ -2,12 +2,21 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
+import { createGlobalStyle } from 'styled-components';
 
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';
 import { loadPostsAction } from '../reducers/postActionCreator';
 import { loadMyDataAction } from '../reducers/userActionCreator';
+
+const GlobalCardExtraFlex = createGlobalStyle`
+  .ant-card-extra {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+`;
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -39,6 +48,7 @@ const Home = () => {
         <title>홈 - jgjgil</title>
       </Head>
       <AppLayout>
+        <GlobalCardExtraFlex />
         {myData && <PostForm />}
         {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />

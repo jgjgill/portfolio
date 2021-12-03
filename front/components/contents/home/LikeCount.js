@@ -1,13 +1,21 @@
-import { HeartOutlined } from '@ant-design/icons';
+import { HeartTwoTone } from '@ant-design/icons';
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const LikeCountWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 15px;
+  color: #333;
+`;
 
 const LikeCount = ({ postLiked }) => (
-  <div>
-    <HeartOutlined />
-    좋아요 개수
+  <LikeCountWrapper>
     {postLiked.length}
-  </div>
+    <HeartTwoTone twoToneColor="#333" />
+  </LikeCountWrapper>
 );
 
 LikeCount.propTypes = {
