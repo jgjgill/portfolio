@@ -25,34 +25,48 @@ const PostForm = () => {
   const { imagePaths, addPostLoading, addPostDone } = useSelector(
     (state) => state.post,
   );
-
   const dispatch = useDispatch();
+  const [postTitle, onChangePostTitle, setPostTitle] = useInput('');
   const [postText, onChangePostText, setPostText] = useInput('');
   const [rateValue, setRateValue] = useState(5);
   const imageInput = useRef();
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (addPostDone) {
-      setPostText('');
+      form.resetFields(['postTitle']);
+      setPostTitle('');
       setRateValue(5);
     }
   }, [addPostDone]);
 
   const onSubmitForm = useCallback(() => {
-    dispatch(addPostAction({ postText, rateNumber: rateValue }));
-  }, [postText, rateValue]);
+    dispatch(addPostAction({ postTitle, postText, rateNumber: rateValue }));
+    setPostText('');
+  }, [postTitle, postText, rateValue]);
 
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
 
   return (
-    <FormWrapper onFinish={onSubmitForm} encType="multipart/form-data">
+    <FormWrapper form={form} onFinish={onSubmitForm} encType="multipart/form-data">
+      <Form.Item name="postTitle" noStyle>
+        <Input
+          value={postTitle}
+          onChange={onChangePostTitle}
+          placeholder="movie title"
+          allowClear
+          required
+        />
+      </Form.Item>
       <Input.TextArea
         value={postText}
         onChange={onChangePostText}
         maxLength={140}
-        placeholder="게시물을 작성해주세요!"
+        placeholder="one line review!"
+        allowClear
+        required
       />
       <Rate allowHalf value={rateValue} onChange={setRateValue} />
       <div>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +29,8 @@ const SignupForm = () => {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
 
+  const [form] = Form.useForm();
+
   const onChangePassword = useCallback(
     (e) => {
       setPassword(e.target.value);
@@ -51,8 +53,6 @@ const SignupForm = () => {
     [term],
   );
 
-  const usernameRef = useRef();
-
   useEffect(() => {
     password === passwordCheck
       ? setPasswordError(() => false)
@@ -65,8 +65,6 @@ const SignupForm = () => {
     if (!(passwordError || termError)) {
       dispatch(signupAction({ username, nickname, password }));
     }
-
-    console.log(username, nickname, password);
   }, [username, nickname, termError, passwordError]);
 
   useEffect(() => {
@@ -74,14 +72,13 @@ const SignupForm = () => {
       toast.error(signupError, {
         position: toast.POSITION.TOP_CENTER,
       });
-
+      form.resetFields();
       dispatch(signupRestAction());
-      usernameRef.current.focus();
     }
   }, [signupError, username]);
 
   return (
-    <Form onFinish={onSubmit} layout="vertical">
+    <Form form={form} onFinish={onSubmit} layout="vertical">
       <FormItemWrapper label="Username">
         <Form.Item name="signup_username" noStyle>
           <Input
@@ -89,7 +86,6 @@ const SignupForm = () => {
             value={username}
             required
             placeholder="username"
-            ref={usernameRef}
           />
         </Form.Item>
       </FormItemWrapper>

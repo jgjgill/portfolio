@@ -106,7 +106,12 @@ const PostCard = ({ post }) => {
       >
         <Card.Meta
           title={post.User.nickname}
-          description={<PostCardContent postData={post.content} postId={post.id} />}
+          description={(
+            <>
+              <div>{post.title}</div>
+              <PostCardContent postData={post.content} postId={post.id} />
+            </>
+          )}
           avatar={(
             <Avatar
               src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
@@ -137,6 +142,7 @@ const PostCard = ({ post }) => {
 PostCard.propTypes = {
   post: PropTypes.shape({
     id: PropTypes.any,
+    title: PropTypes.string,
     User: PropTypes.object,
     content: PropTypes.string,
     rateNumber: PropTypes.number,

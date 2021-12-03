@@ -6,9 +6,10 @@ const { Post, Image, Comment, User } = require('../models');
 
 router.post('/addPost', isLoggedIn, async (req, res, next) => {
   // req.user.id, req.user.username, req.user.avatarNumber
-  // req.body.postText, req.body.rateNumber
+  // req.body.postTitle req.body.postText, req.body.rateNumber
   try {
     const post = await Post.create({
+      title: req.body.postTitle,
       content: req.body.postText,
       rateNumber: req.body.rateNumber,
       UserId: req.user.id,
