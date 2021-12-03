@@ -34,7 +34,7 @@ const reducer = createReducer(postState, (builder) => {
       state.loadPostsLoading = false;
       state.loadPostsDone = true;
       state.mainPosts = state.mainPosts.concat(action.data);
-      state.hasMorePosts = state.mainPosts.length < 50;
+      state.hasMorePosts = action.data.length === 10;
     })
     .addCase(LOAD_POSTS_FAILURE, (state, action) => {
       state.loadPostsLoading = false;

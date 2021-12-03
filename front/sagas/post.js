@@ -25,10 +25,10 @@ import {
 } from '../reducers/action';
 
 function loadPostsAPI(data) {
-  return axios.get('/posts/loadPosts', data);
+  return axios.get(`/posts?lastId=${data.lastId || 0}`);
 }
 function* loadPosts(action) {
-  // posts
+  // lastId
   try {
     const result = yield call(loadPostsAPI, action.payload);
     yield put({
@@ -65,7 +65,7 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete(`/post/${data.postId}`);
+  return axios.delete(`/post/${data.postId}/removePost`);
 }
 function* removePost(action) {
   // postId
@@ -105,7 +105,7 @@ function* addComment(action) {
 }
 
 function removeCommentAPI(data) {
-  return axios.delete(`/post/${data.postId}/${data.commentId}`);
+  return axios.delete(`/post/${data.postId}/${data.commentId}/removeComment`);
 }
 function* removeComment(action) {
   // postId, commentId
@@ -145,7 +145,7 @@ function* likePost(action) {
 }
 
 function unlikePostAPI(data) {
-  return axios.delete(`/post/${data.postId}/like/toggle`);
+  return axios.delete(`/post/${data.postId}/unlikePost`);
 }
 function* unlikePost(action) {
   // postId, userId

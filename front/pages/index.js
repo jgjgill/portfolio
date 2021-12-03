@@ -20,8 +20,14 @@ const Home = () => {
     if (inView && hasMorePosts && !loadPostsLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
       dispatch(loadPostsAction({ lastId }));
+      console.log(lastId);
     }
+    console.log(inView);
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
+
+  useEffect(() => {
+
+  }, []);
 
   useEffect(() => {
     dispatch(loadMyDataAction());

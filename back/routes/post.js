@@ -4,12 +4,9 @@ const router = express.Router();
 
 const { Post, Image, Comment, User } = require('../models');
 
-router.get('loadPosts', (req, res, next) => {});
-
 router.post('/addPost', isLoggedIn, async (req, res, next) => {
   // req.user.id, req.user.username, req.user.avatarNumber
   // req.body.postText, req.body.rateNumber
-  //
   try {
     const post = await Post.create({
       content: req.body.postText,
@@ -50,7 +47,7 @@ router.post('/addPost', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+router.delete('/:postId/removePost', isLoggedIn, async (req, res, next) => {
   try {
     await Post.destroy({
       where: {
@@ -96,7 +93,7 @@ router.post('/:postId/addComment', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:postId/:commentId', isLoggedIn, async (req, res, next) => {
+router.delete('/:postId/:commentId/removeComment', isLoggedIn, async (req, res, next) => {
   try {
     await Comment.destroy({
       where: {
@@ -133,7 +130,7 @@ router.patch('/likePost', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/:postId/like/toggle', isLoggedIn, async (req, res, next) => {
+router.delete('/:postId/unlikePost', isLoggedIn, async (req, res, next) => {
   try {
     const post = await Post.findOne({ where: { id: req.params.postId } });
     if (!post) {
