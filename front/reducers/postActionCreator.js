@@ -5,8 +5,10 @@ import {
   LIKE_POST_REQUEST,
   LOAD_POSTS_REQUEST,
   REMOVE_COMMENT_REQUEST,
+  REMOVE_IMAGE,
   REMOVE_POST_REQUEST,
   UNLIKE_POST_REQUEST,
+  UPLOAD_IMAGES_REQUEST,
 } from './action';
 
 export const loadPostsAction = createAction(LOAD_POSTS_REQUEST);
@@ -19,3 +21,6 @@ export const removeCommentAction = createAction(REMOVE_COMMENT_REQUEST);
 
 export const likePostAction = createAction(LIKE_POST_REQUEST);
 export const unlikePostAction = createAction(UNLIKE_POST_REQUEST);
+
+export const uploadImagesAction = createAction(UPLOAD_IMAGES_REQUEST);
+export const removeImageAction = createAction(REMOVE_IMAGE);

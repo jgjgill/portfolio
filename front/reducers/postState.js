@@ -31,6 +31,10 @@ const postState = {
   unlikePostLoading: false,
   unlikePostDone: false,
   unlikePostError: null,
+
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
 };
 
 export default postState;

@@ -21,6 +21,10 @@ import {
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE,
+  REMOVE_IMAGE,
 } from './action';
 import postState from './postState';
 
@@ -50,6 +54,7 @@ const reducer = createReducer(postState, (builder) => {
       state.addPostLoading = false;
       state.addPostDone = true;
       state.mainPosts.unshift(action.data);
+      state.imagePaths = [];
     })
     .addCase(ADD_POST_FAILURE, (state, action) => {
       state.addPostLoading = false;
@@ -136,7 +141,26 @@ const reducer = createReducer(postState, (builder) => {
     .addCase(UNLIKE_POST_FAILURE, ((state, action) => {
       state.unlikePostLoading = false;
       state.unlikePostLoading = action.error;
-    }));
+    }))
+
+    .addCase(UPLOAD_IMAGES_REQUEST, (state) => {
+      state.uploadImagesLoading = true;
+      state.uploadImagesDone = false;
+    })
+    .addCase(UPLOAD_IMAGES_SUCCESS, ((state, action) => {
+      // data
+      state.uploadImagesLoading = false;
+      state.uploadImagesDone = true;
+      state.imagePaths = action.data;
+    }))
+    .addCase(UPLOAD_IMAGES_FAILURE, ((state, action) => {
+      state.uploadImagesLoading = false;
+      state.uploadImagesError = action.error;
+    }))
+
+    .addCase(REMOVE_IMAGE, (state, action) => {
+      state.imagePaths = state.imagePaths.filter((_, i) => i !== action.payload);
+    });
 });
 
 export default reducer;

@@ -3,6 +3,7 @@ import {
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_IN_FAILURE,
+  LOG_IN_RESET,
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   LOG_OUT_FAILURE,
@@ -28,7 +29,6 @@ import {
   LOAD_MYDATA_REQUEST,
   LOAD_MYDATA_SUCCESS,
   LOAD_MYDATA_FAILURE,
-  LOG_IN_RESET,
 
 } from './action';
 import userState from './userState';
@@ -153,7 +153,6 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(FOLLOW_REQUEST, (state) => {
       state.followLoading = true;
       state.followDone = false;
-      state.unfollowDone = false;
     })
     .addCase(FOLLOW_SUCCESS, (state, action) => {
       // data.userId, data.userNickname
@@ -169,7 +168,6 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(UNFOLLOW_REQUEST, (state) => {
       state.unfollowLoading = true;
       state.unfollowDone = false;
-      state.followDone = false;
     })
     .addCase(UNFOLLOW_SUCCESS, (state, action) => {
       // data.userId

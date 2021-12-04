@@ -24,7 +24,7 @@ const FollowList = ({ followerData }) => {
       dataSource={followerData}
       renderItem={(follower) => (
         <List.Item>
-          <FollowCard actions={[<UserDeleteOutlined key="unfollow" />]}>
+          <FollowCard actions={[<UserDeleteOutlined key="unfollow" onClick={() => console.log(222222)} />]}>
             <Card.Meta description={follower.nickname} />
           </FollowCard>
         </List.Item>
