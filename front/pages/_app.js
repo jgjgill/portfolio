@@ -5,24 +5,17 @@ import 'antd/dist/antd.css';
 import 'react-toastify/dist/ReactToastify.css';
 import '../styles/styles.css';
 import { toast, ToastContainer } from 'react-toastify';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import wrapper from '../store/configureStore';
-import { loadMyDataAction } from '../reducers/userActionCreator';
 
 const App = ({ Component }) => {
-  const dispatch = useDispatch();
-
   const { loginState, logoutState } = useSelector((state) => state.user);
 
   useEffect(() => {
     loginState && toast.success('login');
     logoutState && toast.success(logoutState);
   }, [loginState, logoutState]);
-
-  useEffect(() => {
-    dispatch(loadMyDataAction());
-  }, []);
 
   return (
     <>

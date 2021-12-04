@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+
 import AppLayout from '../components/layouts/AppLayout';
 import SignupForm from '../components/contents/signup/SignupForm';
 import { signupRestAction } from '../reducers/userActionCreator';
@@ -15,6 +17,7 @@ const Signup = () => {
     if (signupDone) {
       router.push('/');
       dispatch(signupRestAction());
+      toast.success('welcome!');
     }
   }, [signupDone]);
 

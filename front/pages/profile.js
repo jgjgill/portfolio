@@ -20,6 +20,9 @@ const GlobalFlex = createGlobalStyle`
 const Profile = () => {
   const { myData } = useSelector((state) => state.user);
 
+  // const [followerListMore, setFollowerListMore] = useState(3);
+  // const [followingListMore, setFollowingListMore] = useState(3);
+
   const router = useRouter();
   useEffect(() => {
     if (!myData) {
@@ -39,8 +42,8 @@ const Profile = () => {
         <AvatarChangeForm />
         <NicknameEditForm />
         <DescriptionChangeForm />
-        <FollowList data={myData.Followers} />
-        <FollowingList data={myData.Followings} />
+        <FollowList followerData={myData.Follower} />
+        <FollowingList followingData={myData.Following} />
       </AppLayout>
       )}
 

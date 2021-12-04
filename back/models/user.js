@@ -42,12 +42,12 @@ module.exports = class User extends Model {
     db.User.belongsToMany(db.Post, { through: 'Like', as: 'LikedPost' });
     db.User.belongsToMany(db.User, {
       through: 'Follow',
-      as: 'Followers',
+      as: 'Follower',
       foreignKey: 'FollowingId',
     });
     db.User.belongsToMany(db.User, {
       through: 'Follow',
-      as: 'Followings',
+      as: 'Following',
       foreignKey: 'FollowerId',
     });
   }

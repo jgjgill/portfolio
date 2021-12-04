@@ -92,7 +92,6 @@ const reducer = createReducer(userState, (builder) => {
       state.signupDone = false;
     })
     .addCase(SIGN_UP_SUCCESS, (state) => {
-      // data.username, data.nickname, data.password
       state.signupLoading = false;
       state.signupDone = true;
     })
@@ -154,12 +153,13 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(FOLLOW_REQUEST, (state) => {
       state.followLoading = true;
       state.followDone = false;
+      state.unfollowDone = false;
     })
     .addCase(FOLLOW_SUCCESS, (state, action) => {
-      // data.userId
+      // data.userId, data.userNickname
       state.followLoading = false;
       state.followDone = true;
-      state.myData.Followings.push(action.data.userId);
+      state.myData.Following.push({ id: action.data.userId, nickname: action.data.userNickname });
     })
     .addCase(FOLLOW_FAILURE, (state, action) => {
       state.followLoading = false;
@@ -169,12 +169,13 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(UNFOLLOW_REQUEST, (state) => {
       state.unfollowLoading = true;
       state.unfollowDone = false;
+      state.followDone = false;
     })
     .addCase(UNFOLLOW_SUCCESS, (state, action) => {
       // data.userId
       state.unfollowLoading = false;
       state.unfollowDone = true;
-      state.myData.Followings = state.myData.Followings.filter((v) => v !== action.data.userId);
+      state.myData.Following = state.myData.Following.filter((v) => v.id !== action.data.userId);
     })
     .addCase(UNFOLLOW_FAILURE, (state, action) => {
       state.unfollowLoading = false;

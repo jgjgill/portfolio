@@ -4,7 +4,7 @@ import { List, Card, Button } from 'antd';
 import { UserDeleteOutlined } from '@ant-design/icons';
 import { FollowCard, FollowListWrapper } from './styles';
 
-const FollowingList = ({ data }) => {
+const FollowingList = ({ followingData }) => {
   const Grid = useMemo(() => ({ gutter: '4', ms: '2', md: '3' }), []);
   const LoadMore = useMemo(
     () => ({ textAlign: 'center', margin: '10px 0' }),
@@ -21,11 +21,11 @@ const FollowingList = ({ data }) => {
         </div>
         )}
       bordered
-      dataSource={data}
-      renderItem={(item) => (
+      dataSource={followingData}
+      renderItem={(following) => (
         <List.Item>
           <FollowCard actions={[<UserDeleteOutlined key="unfollowing" />]}>
-            <Card.Meta description={item} />
+            <Card.Meta description={following.nickname} />
           </FollowCard>
         </List.Item>
       )}
@@ -34,7 +34,7 @@ const FollowingList = ({ data }) => {
 };
 
 FollowingList.propTypes = {
-  data: PropTypes.array.isRequired,
+  followingData: PropTypes.array.isRequired,
 };
 
 export default FollowingList;

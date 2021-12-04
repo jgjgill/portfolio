@@ -21,11 +21,13 @@ router.get('/mydata', async (req, res, next) => {
           },
           {
             model: User,
-            as: 'Followers',
+            as: 'Follower',
+            attributes: ['id', 'nickname'],
           },
           {
             model: User,
-            as: 'Followings',
+            as: 'Following',
+            attributes: ['id', 'nickname'],
           },
         ],
       });
@@ -66,11 +68,13 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           },
           {
             model: User,
-            as: 'Followers',
+            as: 'Follower',
+            attributes: ['id', 'nickname'],
           },
           {
             model: User,
-            as: 'Followings',
+            as: 'Following',
+            attributes: ['id', 'nickname'],
           },
         ],
       });
@@ -166,16 +170,40 @@ router.post('/postsUpdate', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.post('/follow', isLoggedIn, async (req, res, next) => {
+router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
   try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!user) {
+      return res.status(401).send('no user!');
+    }
+    await user.addFollower(req.user.id);
+    console.log(req.user.nickname);
+
+    return res
+      .status(200)
+      .json({
+        userId: parseInt(req.params.userId),
+        userNickname: req.user.nickname,
+      });
   } catch (err) {
     console.error(err);
     next(err);
   }
 });
 
-router.post('/unfollow', isLoggedIn, (req, res, next) => {
+router.delete('/:userId/unfollow', isLoggedIn, async (req, res, next) => {
   try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!user) {
+      return res.status(401).send('no user!');
+    }
+    await user.removeFollower(req.user.id);
+
+    return res.status(200).json({ userId: parseInt(req.params.userId) });
   } catch (err) {
     console.error(err);
     next(err);

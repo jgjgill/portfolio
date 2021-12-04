@@ -101,7 +101,7 @@ const PostCard = ({ post }) => {
         extra={(
           <>
             <LikeCount postLiked={post.Liker} />
-            {id && <FollowButton post={post} />}
+            {(id && (id !== post.User.id)) && <FollowButton post={post} />}
             <Tooltip title={dayjs(post.createdAt).format('YYYY/MM/DD HH/MM/ss')}>
               <span>{`${dayjs().diff(post.createdAt, 'day')}일 전`}</span>
             </Tooltip>

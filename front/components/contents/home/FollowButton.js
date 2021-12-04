@@ -2,12 +2,17 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { followAction, unfollowAction } from '../../../reducers/userActionCreator';
 
 const FollowButton = ({ post }) => {
   const dispatch = useDispatch();
-  const { myData, followLoading, unfollowLoading } = useSelector((state) => state.user);
-  const isFollowing = myData?.Followings.find((v) => v === post.User.id);
+  const {
+    myData,
+    followLoading,
+    unfollowLoading,
+  } = useSelector((state) => state.user);
+  const isFollowing = myData?.Following.find((v) => v.id === post.User.id);
 
   const followToggle = useCallback(() => {
     if (isFollowing) {

@@ -27,10 +27,10 @@ const UserProfile = () => {
             <a><div key="posts">{myData.Posts.length}<br />posts</div></a>
           </Link>,
           <Link href="/profile">
-            <a><div key="followers">{myData.Followers.length}<br />followers</div></a>
+            <a><div key="followers">{myData.Follower.length}<br />followers</div></a>
           </Link>,
           <Link href="/profile">
-            <a><div key="following">{myData.Followings.length}<br />following</div></a>
+            <a><div key="following">{myData.Following.length}<br />following</div></a>
           </Link>,
         ]}
       >

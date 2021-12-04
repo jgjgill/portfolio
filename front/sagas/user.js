@@ -1,4 +1,4 @@
-import { takeLatest, all, fork, put, delay, call } from 'redux-saga/effects';
+import { takeLatest, all, fork, put, call } from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOG_IN_REQUEST,
@@ -20,9 +20,9 @@ import {
   AVATAR_CHANGE_FAILURE,
   AVATAR_CHANGE_SUCCESS,
   FOLLOW_REQUEST,
-  UNFOLLOW_REQUEST,
-  FOLLOW_FAILURE,
   FOLLOW_SUCCESS,
+  FOLLOW_FAILURE,
+  UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
   LOAD_MYDATA_REQUEST,
@@ -170,17 +170,15 @@ function* descriptionChange(action) {
 }
 
 function followAPI(data) {
-  return axios.post('user/follow', data);
+  return axios.patch(`user/${data.userId}/follow`);
 }
 function* follow(action) {
-  // userId
+  // userId, userNickname
   try {
-    yield delay(1000);
-    // const result = yield call(followAPI, action.payload);
+    const result = yield call(followAPI, action.payload);
     yield put({
       type: FOLLOW_SUCCESS,
-      // data: result.data
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);
@@ -192,17 +190,15 @@ function* follow(action) {
 }
 
 function unfollowAPI(data) {
-  return axios.post('user/unfollow', data);
+  return axios.delete(`user/${data.userId}/unfollow`);
 }
 function* unfollow(action) {
   // userId
   try {
-    yield delay(1000);
-    // const result = yield call(unfollowAPI, action.payload);
+    const result = yield call(unfollowAPI, action.payload);
     yield put({
       type: UNFOLLOW_SUCCESS,
-      // data: result.data
-      data: action.payload,
+      data: result.data,
     });
   } catch (err) {
     console.error(err);

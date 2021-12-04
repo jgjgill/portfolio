@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { createGlobalStyle } from 'styled-components';
+import { toast } from 'react-toastify';
 
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
@@ -20,7 +21,7 @@ const GlobalCardExtraFlex = createGlobalStyle`
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { myData } = useSelector((state) => state.user);
+  const { myData, followDone, unfollowDone } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
@@ -35,12 +36,13 @@ const Home = () => {
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
   useEffect(() => {
-
-  }, []);
-
-  useEffect(() => {
     dispatch(loadMyDataAction());
   }, [mainPosts]);
+
+  useEffect(() => {
+    followDone && toast.success('follow!!');
+    unfollowDone && toast.success('unfollow!!');
+  }, [followDone, unfollowDone]);
 
   return (
     <>
