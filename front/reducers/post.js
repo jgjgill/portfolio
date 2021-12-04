@@ -151,7 +151,7 @@ const reducer = createReducer(postState, (builder) => {
       // data
       state.uploadImagesLoading = false;
       state.uploadImagesDone = true;
-      state.imagePaths = action.data;
+      state.imagePaths.unshift(action.data);
     }))
     .addCase(UPLOAD_IMAGES_FAILURE, ((state, action) => {
       state.uploadImagesLoading = false;

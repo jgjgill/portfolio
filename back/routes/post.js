@@ -39,7 +39,6 @@ router.post('/addPost', isLoggedIn, upload.none(), async (req, res, next) => {
     });
 
     if (req.body.image) {
-      console.log(req.body)
       if (Array.isArray(req.body.image)) {
         const images = await Promise.all(
           req.body.image.map((image) => Image.create({ src: image }))
@@ -192,8 +191,6 @@ router.post(
   upload.array('image'),
   async (req, res, next) => {
     try {
-      console.log(req.files);
-
       return res.status(200).json(req.files.map((v) => v.filename));
     } catch (err) {
       console.error(err);

@@ -63,7 +63,8 @@ const PostForm = () => {
       imageFormData.append('image', f);
     });
     dispatch(uploadImagesAction(imageFormData));
-  }, []);
+    form.resetFields(['image']);
+  }, [imagePaths]);
 
   const onRemoveImage = useCallback((index) => () => {
     dispatch(removeImageAction(index));
@@ -89,13 +90,13 @@ const PostForm = () => {
         required
       />
       <Rate allowHalf value={rateValue} onChange={setRateValue} />
-      <div>
-        <input type="file" name="image" multiple hidden ref={imageInput} onChange={onChangeImages} />
-        <Button onClick={onClickImageUpload}>이미지 업로드</Button>
-        <SubmitButton htmlType="submit" loading={addPostLoading}>
-          Submit
-        </SubmitButton>
-      </div>
+      <Form.Item name="image" noStyle>
+        <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
+      </Form.Item>
+      <Button onClick={onClickImageUpload}>이미지 업로드</Button>
+      <SubmitButton htmlType="submit" loading={addPostLoading}>
+        Submit
+      </SubmitButton>
       <div>
         {imagePaths.map((v, i) => (
           <ImageWrapper key={v}>

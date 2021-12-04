@@ -51,7 +51,7 @@ function addPostAPI(data) {
   return axios.post('/post/addPost', data);
 }
 function* addPost(action) {
-  // postTitle-> title ,postText -> content, imageData, rateNumber, UserId
+  // postTitle-> title ,postText -> content, image, rateNumber, UserId
   try {
     console.log(action.payload);
     const result = yield call(addPostAPI, action.payload);
