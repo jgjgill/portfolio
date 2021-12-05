@@ -20,7 +20,7 @@ export const loginResetAction = createAction(LOG_IN_RESET);
 export const logoutAction = createAction(LOG_OUT_REQUEST);
 
 export const signupAction = createAction(SIGN_UP_REQUEST);
-export const signupRestAction = createAction(SIGN_UP_RESET);
+export const signupResetAction = createAction(SIGN_UP_RESET);
 
 export const avatarChangeAction = createAction(AVATAR_CHANGE_REQUEST);
 export const nicknameChangeAction = createAction(NICKNAME_CHANGE_REQUEST);

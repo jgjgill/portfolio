@@ -199,4 +199,90 @@ router.post(
   }
 );
 
+router.post('/:postId/retweetPost', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+      include: [
+        {
+          model: Post,
+          as: 'Retweet',
+        },
+      ],
+    });
+    if (!post) {
+      return res.status(403).send('no content!');
+    }
+    if (
+      req.user.id === post.UserId ||
+      (post.Retweet && post.Retweet.UserId === req.user.id)
+    ) {
+      return res.status(403).send('my post cannot retweet!');
+    }
+
+    const retweetTargetId = post.RetweetId || post.id;
+    const exPost = await Post.findOne({
+      where: {
+        UserId: req.user.id,
+        RetweetId: retweetTargetId,
+      },
+    });
+    if (exPost) {
+      return res.status(403).send('You already did retweet!');
+    }
+
+    const retweet = await Post.create({
+      UserId: req.user.id,
+      RetweetId: retweetTargetId,
+      title: 'retweetTitle',
+      content: 'retweetContent',
+      rateNumber: 0,
+    });
+    const retweetWithPrevPost = await Post.findOne({
+      where: { id: retweet.id },
+      include: [
+        {
+          model: Post,
+          as: 'Retweet',
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'avatarNumber'],
+            },
+            {
+              model: Image,
+            },
+          ],
+        },
+        {
+          model: Image,
+        },
+        {
+          model: Comment,
+          include: [
+            {
+              model: User,
+              attributes: ['id', 'nickname', 'avatarNumber'],
+            },
+          ],
+        },
+        {
+          model: User,
+          attributes: ['id', 'nickname', 'avatarNumber'],
+        },
+        {
+          model: User,
+          as: 'Liker',
+          attributes: ['id'],
+        },
+      ],
+    });
+
+    return res.status(200).json(retweetWithPrevPost);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 module.exports = router;

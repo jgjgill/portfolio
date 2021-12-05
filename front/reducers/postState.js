@@ -35,6 +35,11 @@ const postState = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+
+  retweetPostLoading: false,
+  retweetPostDone: false,
+  retweetPostError: null,
+
 };
 
 export default postState;

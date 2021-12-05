@@ -25,6 +25,9 @@ import {
   UPLOAD_IMAGES_REQUEST,
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
+  RETWEET_POST_REQUEST,
+  RETWEET_POST_SUCCESS,
+  RETWEET_POST_FAILURE,
 } from '../reducers/action';
 
 function loadPostsAPI(data) {
@@ -89,7 +92,7 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post(`/post/${data.postId}/addComment`);
+  return axios.post(`/post/${data.postId}/addComment`, data);
 }
 function* addComment(action) {
   // commentText -> content, postId -> PostId, UserId
@@ -188,6 +191,26 @@ function* uploadImages(action) {
   }
 }
 
+function retweetPostAPI(data) {
+  return axios.post(`/post/${data.postId}/retweetPost`, data);
+}
+function* retweetPost(action) {
+  // retweetWithPrevPost
+  try {
+    const result = yield call(retweetPostAPI, action.payload);
+    yield put({
+      type: RETWEET_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: RETWEET_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -212,6 +235,9 @@ function* watchUnlikePost() {
 function* watchUploadImage() {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
+function* wathchRetweetPost() {
+  yield takeLatest(RETWEET_POST_REQUEST, retweetPost);
+}
 
 export default function* postSaga() {
   yield all(
@@ -224,6 +250,7 @@ export default function* postSaga() {
       fork(watchLikePost),
       fork(watchUnlikePost),
       fork(watchUploadImage),
+      fork(wathchRetweetPost),
     ],
   );
 }

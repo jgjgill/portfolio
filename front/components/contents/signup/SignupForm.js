@@ -4,7 +4,7 @@ import { Button, Checkbox, Form, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useInput } from '../../../hooks/useInput';
-import { signupAction, signupRestAction } from '../../../reducers/userActionCreator';
+import { signupAction, signupResetAction } from '../../../reducers/userActionCreator';
 
 const FormItemWrapper = styled(Form.Item)`
   margin-bottom: 10px;
@@ -73,7 +73,7 @@ const SignupForm = () => {
         position: toast.POSITION.TOP_CENTER,
       });
       form.resetFields();
-      dispatch(signupRestAction());
+      dispatch(signupResetAction());
     }
   }, [signupError, username]);
 

@@ -25,6 +25,10 @@ import {
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE,
   REMOVE_IMAGE,
+  RETWEET_POST_REQUEST,
+  RETWEET_POST_SUCCESS,
+  RETWEET_POST_FAILURE,
+  RETWEET_POST_RESET,
 } from './action';
 import postState from './postState';
 
@@ -160,6 +164,26 @@ const reducer = createReducer(postState, (builder) => {
 
     .addCase(REMOVE_IMAGE, (state, action) => {
       state.imagePaths = state.imagePaths.filter((_, i) => i !== action.payload);
+    })
+
+    .addCase(RETWEET_POST_REQUEST, (state) => {
+      state.retweetPostLoading = true;
+      state.retweetPostDone = false;
+    })
+    .addCase(RETWEET_POST_SUCCESS, (state, action) => {
+      // data.retweetWithPrevPost
+      state.retweetPostLoading = false;
+      state.retweetPostDone = true;
+      state.mainPosts.unshift(action.data);
+    })
+    .addCase(RETWEET_POST_FAILURE, (state, action) => {
+      state.retweetPostLoading = false;
+      state.retweetPostError = action.error;
+    })
+
+    .addCase(RETWEET_POST_RESET, (state) => {
+      state.retweetPostLoading = false;
+      state.retweetPostError = null;
     });
 });
 

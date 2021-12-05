@@ -3,11 +3,12 @@ import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { createGlobalStyle } from 'styled-components';
+import { toast } from 'react-toastify';
 
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';
-import { loadPostsAction } from '../reducers/postActionCreator';
+import { loadPostsAction, reweeetPostResetAction } from '../reducers/postActionCreator';
 import { loadMyDataAction } from '../reducers/userActionCreator';
 
 const GlobalCardExtraFlex = createGlobalStyle`
@@ -21,7 +22,12 @@ const GlobalCardExtraFlex = createGlobalStyle`
 const Home = () => {
   const dispatch = useDispatch();
   const { myData } = useSelector((state) => state.user);
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
+  const {
+    mainPosts,
+    hasMorePosts,
+    loadPostsLoading,
+    retweetPostError,
+  } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
 
@@ -35,6 +41,13 @@ const Home = () => {
   useEffect(() => {
     dispatch(loadMyDataAction());
   }, [mainPosts]);
+
+  useEffect(() => {
+    if (retweetPostError) {
+      toast.error(retweetPostError);
+      dispatch(reweeetPostResetAction());
+    }
+  }, [retweetPostError]);
 
   return (
     <>

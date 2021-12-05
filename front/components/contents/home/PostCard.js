@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
-import { likePostAction, removePostAction, unlikePostAction } from '../../../reducers/postActionCreator';
+import { likePostAction, removePostAction, retweetPostAction, unlikePostAction } from '../../../reducers/postActionCreator';
 import CommentContent from './CommentContent';
 import FollowButton from './FollowButton';
 import LikeCount from './LikeCount';
@@ -33,6 +33,14 @@ const PostCard = ({ post }) => {
 
   const [likeState, setLikeState] = useState(false);
   const [commentFormOpened, setCommentFormOpened] = useState(false);
+
+  const onRetweet = useCallback(() => {
+    if (id) {
+      dispatch(retweetPostAction({ postId: post.id }));
+    } else {
+      toast.error('login!!');
+    }
+  }, [id]);
 
   const onLike = useCallback(() => {
     if (id) {
@@ -69,7 +77,7 @@ const PostCard = ({ post }) => {
       <CardWrapper
         cover={post.Images[0] && <PostImages images={post.Images} />}
         actions={[
-          <RetweetOutlined key="retweet" />,
+          <RetweetOutlined key="retweet" onClick={onRetweet} />,
           likeState ? (
             <HeartTwoTone
               twoToneColor="#eb2f96"
@@ -100,6 +108,18 @@ const PostCard = ({ post }) => {
         ]}
         extra={(
           <>
+            {post.RetweetId
+            && (
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span>Retweet Post</span>
+                <div>
+                  <Avatar
+                    src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
+                  />
+                  <span>{post.User.nickname}</span>
+                </div>
+              </div>
+            )}
             <LikeCount postLiked={post.Liker} />
             {(id && (id !== post.User.id)) && <FollowButton post={post} />}
             <Tooltip title={dayjs(post.createdAt).format('YYYY/MM/DD HH/MM/ss')}>
@@ -108,26 +128,55 @@ const PostCard = ({ post }) => {
           </>
         )}
       >
-        <Card.Meta
-          title={post.User.nickname}
-          description={(
-            <>
-              <div>{post.title}</div>
-
-              <PostCardContent
-                postContent={post.content}
-                postId={post.id}
-                postCreatedAt={post.createdAt}
+        {post.RetweetId
+          ? (
+            <Card
+              cover={post.Retweet.Images[0] && <PostImages images={post.Retweet.Images} />}
+            >
+              <Card.Meta
+                title={post.Retweet.User.nickname}
+                description={(
+                  <>
+                    <div>{post.Retweet.title}</div>
+                    <PostCardContent
+                      postContent={post.Retweet.content}
+                      postId={post.Retweet.id}
+                      postCreatedAt={post.Retweet.createdAt}
+                    />
+                  </>
+                )}
+                avatar={(
+                  <Avatar
+                    src={`https://joeschmoe.io/api/v1/${post.Retweet.User.avatarNumber}`}
+                  />
+                )}
               />
+              <Rate allowHalf disabled defaultValue={post.Retweet.rateNumber} />
+            </Card>
+          )
+          : (
+            <>
+              <Card.Meta
+                title={post.User.nickname}
+                description={(
+                  <>
+                    <div>{post.title}</div>
+                    <PostCardContent
+                      postContent={post.content}
+                      postId={post.id}
+                      postCreatedAt={post.createdAt}
+                    />
+                  </>
+                )}
+                avatar={(
+                  <Avatar
+                    src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
+                  />
+                )}
+              />
+              <Rate allowHalf disabled defaultValue={post.rateNumber} />
             </>
           )}
-          avatar={(
-            <Avatar
-              src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
-            />
-          )}
-        />
-        <Rate allowHalf disabled defaultValue={post.rateNumber} />
       </CardWrapper>
       {commentFormOpened && (
         <>
@@ -159,6 +208,8 @@ PostCard.propTypes = {
     Comments: PropTypes.arrayOf(PropTypes.object),
     createdAt: PropTypes.string,
     Liker: PropTypes.array,
+    RetweetId: PropTypes.number,
+    Retweet: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 
