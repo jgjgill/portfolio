@@ -89,7 +89,7 @@ const PostForm = () => {
         allowClear
         required
       />
-      <Rate allowHalf value={rateValue} onChange={setRateValue} />
+      <Rate allowHalf allowClear value={rateValue} onChange={setRateValue} />
       <Form.Item name="image" noStyle>
         <input type="file" multiple hidden ref={imageInput} onChange={onChangeImages} />
       </Form.Item>
