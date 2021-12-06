@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
+import { END } from 'redux-saga';
+import axios from 'axios';
 import AppLayout from '../components/layouts/AppLayout';
 import SignupForm from '../components/contents/signup/SignupForm';
-import { signupRestAction } from '../reducers/userActionCreator';
+import { loadMyDataAction, signupResetAction } from '../reducers/userActionCreator';
+import wrapper from '../store/configureStore';
 
 const Signup = () => {
   const dispatch = useDispatch();
@@ -16,7 +19,7 @@ const Signup = () => {
   useEffect(() => {
     if (signupDone) {
       router.push('/');
-      dispatch(signupRestAction());
+      dispatch(signupResetAction());
       toast.success('welcome!');
     }
   }, [signupDone]);
@@ -33,5 +36,19 @@ const Signup = () => {
     </>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+
+    if (req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    store.dispatch(loadMyDataAction());
+
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+  },
+);
 
 export default Signup;

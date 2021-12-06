@@ -1,12 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { List } from 'antd';
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import { toast } from 'react-toastify';
-
-const yesterday = dayjs().subtract(1, 'day').format('YYYYMMDD');
-const movieURL = `http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=${process.env.NEXT_PUBLIC_MOVIE_KEY}&targetDt=${yesterday}`;
 
 const MovieList = styled(List)`
   background: #fff;
@@ -23,49 +19,19 @@ const MovieRank = () => {
     isLoading: true,
   });
 
-  const getMovies = useCallback(async () => {
+  const getMovies = async () => {
     try {
-      const {
-        data: {
-          boxOfficeResult: { dailyBoxOfficeList: movies },
-        },
-      } = await axios.get(
-        movieURL,
-      );
+      const { data } = await axios.get('/movie/movieRank');
 
-      const response = await toast.promise(
-        fetch(movieURL),
-        {
-          pending: {
-            render() {
-              return 'boxoffice loading...';
-            },
-          },
-          success: {
-            render() {
-              return 'boxoffice success!';
-            },
-          },
-          error: {
-            render() {
-              return 'boxoffice error...';
-            },
-          },
-        },
-      );
-      console.log(response);
-
-      setMoviesList({ movies });
+      setMoviesList({ movies: data });
       setMoviesLoading({ isLoading: false });
-
-      console.log(moviesList);
     } catch (err) {
       console.error(err);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    // getMovies();
+    getMovies();
   }, []);
 
   return (

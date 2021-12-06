@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import { END } from 'redux-saga';
+import axios from 'axios';
 import AppLayout from '../components/layouts/AppLayout';
 import NicknameEditForm from '../components/contents/profile/NicknameEditForm';
 import FollowList from '../components/contents/profile/FollowList';
 import FollowingList from '../components/contents/profile/FollowingList';
 import AvatarChangeForm from '../components/contents/profile/AvatarChangeForm';
 import DescriptionChangeForm from '../components/contents/profile/DescriptionChangeForm';
+import { loadMyDataAction } from '../reducers/userActionCreator';
+import wrapper from '../store/configureStore';
 
 const GlobalFlex = createGlobalStyle`
   .ant-row {
@@ -50,5 +54,19 @@ const Profile = () => {
     </>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+
+    if (req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    store.dispatch(loadMyDataAction());
+
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+  },
+);
 
 export default Profile;
