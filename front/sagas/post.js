@@ -31,7 +31,7 @@ import {
 } from '../reducers/action';
 
 function loadPostsAPI(data) {
-  return axios.get(`/posts?lastId=${data.lastId || 0}`);
+  return axios.get(`/posts?lastId=${data?.lastId || 0}`);
 }
 function* loadPosts(action) {
   // lastId

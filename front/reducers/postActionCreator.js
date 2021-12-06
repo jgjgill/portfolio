@@ -28,4 +28,4 @@ export const uploadImagesAction = createAction(UPLOAD_IMAGES_REQUEST);
 export const removeImageAction = createAction(REMOVE_IMAGE);
 
 export const retweetPostAction = createAction(RETWEET_POST_REQUEST);
-export const reweeetPostResetAction = createAction(RETWEET_POST_RESET);
+export const reweetPostResetAction = createAction(RETWEET_POST_RESET);

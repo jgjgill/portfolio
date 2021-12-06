@@ -20,6 +20,7 @@ import { likePostAction, removePostAction, retweetPostAction, unlikePostAction }
 import CommentContent from './CommentContent';
 import FollowButton from './FollowButton';
 import LikeCount from './LikeCount';
+import PostCardTitle from './PostCardTitle';
 
 const CardWrapper = styled(Card)`
   margin-bottom: 10px;
@@ -137,7 +138,7 @@ const PostCard = ({ post }) => {
                 title={post.Retweet.User.nickname}
                 description={(
                   <>
-                    <div>{post.Retweet.title}</div>
+                    <PostCardTitle postTitle={post.Retweet.title} />
                     <PostCardContent
                       postContent={post.Retweet.content}
                       postId={post.Retweet.id}
@@ -160,7 +161,7 @@ const PostCard = ({ post }) => {
                 title={post.User.nickname}
                 description={(
                   <>
-                    <div>{post.title}</div>
+                    <PostCardTitle postTitle={post.title} />
                     <PostCardContent
                       postContent={post.content}
                       postId={post.id}
@@ -209,7 +210,7 @@ PostCard.propTypes = {
     createdAt: PropTypes.string,
     Liker: PropTypes.array,
     RetweetId: PropTypes.number,
-    Retweet: PropTypes.arrayOf(PropTypes.object),
+    Retweet: PropTypes.object,
   }).isRequired,
 };
 

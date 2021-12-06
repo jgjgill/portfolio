@@ -4,12 +4,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 import { createGlobalStyle } from 'styled-components';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+import { END } from 'redux-saga';
 
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';
-import { loadPostsAction, reweeetPostResetAction } from '../reducers/postActionCreator';
+import {
+  loadPostsAction,
+  reweetPostResetAction,
+} from '../reducers/postActionCreator';
 import { loadMyDataAction } from '../reducers/userActionCreator';
+import wrapper from '../store/configureStore';
 
 const GlobalCardExtraFlex = createGlobalStyle`
   .ant-card-extra {
@@ -26,8 +32,7 @@ const Home = () => {
     mainPosts,
     hasMorePosts,
     loadPostsLoading,
-    retweetPostError,
-  } = useSelector((state) => state.post);
+    retweetPostError } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
 
@@ -39,13 +44,9 @@ const Home = () => {
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
   useEffect(() => {
-    dispatch(loadMyDataAction());
-  }, [mainPosts]);
-
-  useEffect(() => {
     if (retweetPostError) {
       toast.error(retweetPostError);
-      dispatch(reweeetPostResetAction());
+      dispatch(reweetPostResetAction());
     }
   }, [retweetPostError]);
 
@@ -65,5 +66,20 @@ const Home = () => {
     </>
   );
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async ({ req }) => {
+    const cookie = req ? req.headers.cookie : '';
+
+    if (req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
+    store.dispatch(loadPostsAction());
+    store.dispatch(loadMyDataAction());
+
+    store.dispatch(END);
+    await store.sagaTask.toPromise();
+  },
+);
 
 export default Home;
