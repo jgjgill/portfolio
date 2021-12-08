@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Col, Layout, Row } from 'antd';
 import styled from 'styled-components';
+import axios from 'axios';
+import useSWR from 'swr';
 
 import Footer from '../Footer';
 import Navbar from '../Navbar';
@@ -27,8 +29,14 @@ const LayoutFooter = styled(Layout.Footer)`
   height: 100%;
 `;
 
+const fetcher = (url) => axios.get(url, { withCredentials: true })
+  .then((res) => res.data);
+const movieURL = 'http://localhost:3065/movie/movieRank';
+
 const AppLayout = ({ children }) => {
   const { myData } = useSelector((state) => state.user);
+
+  const { data: movieData, error: movieError } = useSWR(movieURL, fetcher);
 
   return (
     <Layout>
@@ -45,7 +53,10 @@ const AppLayout = ({ children }) => {
             {children}
           </Col>
           <Col xs={24} md={5}>
-            <MovieRank />
+            {movieData
+              ? <MovieRank movieData={movieData} />
+              : <div>Loading...</div>}
+            {movieError && <div>Movie Error!</div>}
           </Col>
         </Row>
       </LayoutContent>
