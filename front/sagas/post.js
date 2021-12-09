@@ -4,6 +4,9 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_FAILURE,
   LOAD_POSTS_SUCCESS,
+  LOAD_POST_REQUEST,
+  LOAD_POST_FAILURE,
+  LOAD_POST_SUCCESS,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -50,13 +53,32 @@ function* loadPosts(action) {
   }
 }
 
+function loadPostAPI(data) {
+  return axios.get(`/post/${data.postId}`);
+}
+function* loadPost(action) {
+  // postData
+  try {
+    const result = yield call(loadPostAPI, action.payload);
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_POST_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function addPostAPI(data) {
   return axios.post('/post/addPost', data);
 }
 function* addPost(action) {
   // postTitle-> title ,postText -> content, image, rateNumber, UserId
   try {
-    console.log(action.payload);
     const result = yield call(addPostAPI, action.payload);
     yield put({
       type: ADD_POST_SUCCESS,
@@ -214,6 +236,9 @@ function* retweetPost(action) {
 function* watchLoadPosts() {
   yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
+}
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -243,6 +268,7 @@ export default function* postSaga() {
   yield all(
     [
       fork(watchLoadPosts),
+      fork(watchLoadPost),
       fork(watchAddPost),
       fork(watchRemovePost),
       fork(watchAddComment),

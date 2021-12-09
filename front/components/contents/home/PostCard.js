@@ -111,7 +111,7 @@ const PostCard = ({ post }) => {
           <>
             {post.RetweetId
             && (
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div>
                 <span>Retweet Post</span>
                 <div>
                   <Avatar

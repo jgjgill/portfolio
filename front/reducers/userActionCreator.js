@@ -1,6 +1,9 @@
 import { createAction } from '@reduxjs/toolkit';
 import {
+  LOAD_MYDATA_REQUEST,
+  LOAD_USER_REQUEST,
   LOG_IN_REQUEST,
+  LOG_IN_RESET,
   LOG_OUT_REQUEST,
   NICKNAME_CHANGE_REQUEST,
   DESCRIPTION_CHANGE_REQUEST,
@@ -9,11 +12,11 @@ import {
   AVATAR_CHANGE_REQUEST,
   FOLLOW_REQUEST,
   UNFOLLOW_REQUEST,
-  LOAD_MYDATA_REQUEST,
-  LOG_IN_RESET,
 } from './action';
 
 export const loadMyDataAction = createAction(LOAD_MYDATA_REQUEST);
+
+export const loadUserAction = createAction(LOAD_USER_REQUEST);
 
 export const loginAction = createAction(LOG_IN_REQUEST);
 export const loginResetAction = createAction(LOG_IN_RESET);

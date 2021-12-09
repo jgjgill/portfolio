@@ -1,5 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
+  LOAD_MYDATA_REQUEST,
+  LOAD_MYDATA_SUCCESS,
+  LOAD_MYDATA_FAILURE,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
   LOG_IN_REQUEST,
   LOG_IN_SUCCESS,
   LOG_IN_FAILURE,
@@ -26,9 +32,6 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
-  LOAD_MYDATA_REQUEST,
-  LOAD_MYDATA_SUCCESS,
-  LOAD_MYDATA_FAILURE,
 
 } from './action';
 import userState from './userState';
@@ -48,6 +51,21 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(LOAD_MYDATA_FAILURE, (state, action) => {
       state.loadMydataLoading = false;
       state.loadMydataError = action.error;
+    })
+
+    .addCase(LOAD_USER_REQUEST, (state) => {
+      state.loadUserLoading = true;
+      state.loadUserDone = false;
+    })
+    .addCase(LOAD_USER_SUCCESS, (state, action) => {
+      // data.userData
+      state.loadUserLoading = false;
+      state.loadUserDone = true;
+      state.userInfo = action.data;
+    })
+    .addCase(LOAD_USER_FAILURE, (state, action) => {
+      state.loadUserLoading = false;
+      state.loadUserError = action.error;
     })
 
     .addCase(LOG_IN_REQUEST, (state) => {

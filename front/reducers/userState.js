@@ -3,6 +3,10 @@ const userState = {
   loadMydataDone: false,
   loadMydataError: null,
 
+  loadUserLoading: false,
+  loadUserDone: false,
+  loadUserError: null,
+
   loginLoading: false,
   loginError: null,
   loginState: false,
@@ -38,6 +42,7 @@ const userState = {
   unfollowError: null,
 
   myData: null,
+  userInfo: null,
 };
 
 export default userState;

@@ -42,6 +42,46 @@ router.get('/mydata', async (req, res, next) => {
   }
 });
 
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const userData = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: {
+        exclude: ['password'],
+      },
+      include: [
+        {
+          model: Post,
+          attributes: ['id'],
+        },
+        {
+          model: User,
+          as: 'Follower',
+          attributes: ['id'],
+        },
+        {
+          model: User,
+          as: 'Following',
+          attributes: ['id'],
+        },
+      ],
+    });
+
+    if (userData) {
+      const data = userData.toJSON();
+      data.Posts = data.Posts.length
+      data.Follower = data.Follower.length
+      data.Following = data.Following.length
+      return res.status(200).json(data);
+    } else {
+      return res.status(404).send('Not User!');
+    }
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (err, user, clientError) => {
     if (err) {
@@ -181,12 +221,10 @@ router.patch('/:userId/follow', isLoggedIn, async (req, res, next) => {
     await user.addFollower(req.user.id);
     console.log(req.user.nickname);
 
-    return res
-      .status(200)
-      .json({
-        userId: parseInt(req.params.userId),
-        userNickname: req.user.nickname,
-      });
+    return res.status(200).json({
+      userId: parseInt(req.params.userId),
+      userNickname: req.user.nickname,
+    });
   } catch (err) {
     console.error(err);
     next(err);

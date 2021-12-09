@@ -4,6 +4,7 @@ import {
   ADD_POST_REQUEST,
   LIKE_POST_REQUEST,
   LOAD_POSTS_REQUEST,
+  LOAD_POST_REQUEST,
   REMOVE_COMMENT_REQUEST,
   REMOVE_IMAGE,
   REMOVE_POST_REQUEST,
@@ -14,6 +15,8 @@ import {
 } from './action';
 
 export const loadPostsAction = createAction(LOAD_POSTS_REQUEST);
+
+export const loadPostAction = createAction(LOAD_POST_REQUEST);
 
 export const addPostAction = createAction(ADD_POST_REQUEST);
 export const removePostAction = createAction(REMOVE_POST_REQUEST);

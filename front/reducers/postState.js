@@ -8,6 +8,10 @@ const postState = {
   loadPostsDone: false,
   loadPostsError: null,
 
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
+
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -39,7 +43,6 @@ const postState = {
   retweetPostLoading: false,
   retweetPostDone: false,
   retweetPostError: null,
-
 };
 
 export default postState;

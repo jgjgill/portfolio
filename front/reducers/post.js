@@ -3,6 +3,9 @@ import {
   LOAD_POSTS_REQUEST,
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -47,6 +50,20 @@ const reducer = createReducer(postState, (builder) => {
     .addCase(LOAD_POSTS_FAILURE, (state, action) => {
       state.loadPostsLoading = false;
       state.loadPostsError = action.error;
+    })
+
+    .addCase(LOAD_POST_REQUEST, (state) => {
+      state.loadPostLoading = true;
+      state.loadPostDone = false;
+    })
+    .addCase(LOAD_POST_SUCCESS, (state, action) => {
+      state.loadPostLoading = false;
+      state.loadPostDone = true;
+      state.mainPosts.push(action.data);
+    })
+    .addCase(LOAD_POST_FAILURE, (state, action) => {
+      state.loadPostLoading = false;
+      state.loadPostError = action.error;
     })
 
     .addCase(ADD_POST_REQUEST, (state) => {
