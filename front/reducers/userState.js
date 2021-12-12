@@ -41,6 +41,10 @@ const userState = {
   unfollowDone: false,
   unfollowError: null,
 
+  removeFollowLoading: false,
+  removeFollowDone: false,
+  removeFollowError: null,
+
   myData: null,
   userInfo: null,
 };

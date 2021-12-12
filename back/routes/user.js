@@ -271,6 +271,8 @@ router.get('/follower/list', isLoggedIn, async (req, res, next) => {
       },
     });
     console.log(followerList);
+    console.log(followerList.length);
+    console.log(req.query.limit);
 
     return res.status(200).json(followerList);
   } catch (err) {
@@ -309,5 +311,22 @@ router.get('/following/list', isLoggedIn, async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:userId/remove/follow', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {id: req.params.userId}
+    })
+    if (!user) {
+      return res.status(401).send('no user!')
+    }
+    await user.removeFollowing(req.user.id)
+
+    return res.status(200).json({userId: parseInt(req.params.userId)})
+  } catch (err) {
+    console.error(err)
+    next(err)
+  }
+})
 
 module.exports = router;

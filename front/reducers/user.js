@@ -32,6 +32,9 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  REMOVE_FOLLOW_REQUEST,
+  REMOVE_FOLLOW_SUCCESS,
+  REMOVE_FOLLOW_FAILURE,
 
 } from './action';
 import userState from './userState';
@@ -196,6 +199,20 @@ const reducer = createReducer(userState, (builder) => {
     .addCase(UNFOLLOW_FAILURE, (state, action) => {
       state.unfollowLoading = false;
       state.unfollowError = action.error;
+    })
+
+    .addCase(REMOVE_FOLLOW_REQUEST, (state) => {
+      state.removeFollowLoading = true;
+      state.removeFollowDone = false;
+    })
+    .addCase(REMOVE_FOLLOW_SUCCESS, (state, action) => {
+      state.removeFollowLoading = false;
+      state.removeFollowDone = true;
+      state.myData.Follower = state.myData.Follower.filter((v) => v.id !== action.data.userId);
+    })
+    .addCase(REMOVE_FOLLOW_FAILURE, (state, action) => {
+      state.removeFollowLoading = false;
+      state.removeFollowError = action.error;
     });
 });
 

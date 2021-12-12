@@ -1,10 +1,12 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { List, Card, Button } from 'antd';
 import { UserDeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Avatar from 'antd/lib/avatar/avatar';
+import { useDispatch } from 'react-redux';
 import { FollowCard, FollowListWrapper } from './styles';
+import { unfollowAction } from '../../../reducers/userActionCreator';
 
 const FollowCardContent = styled(Card.Meta)`
   display: flex;
@@ -17,6 +19,12 @@ const FollowingList = ({ followingData, onClickMore, loading }) => {
     () => ({ textAlign: 'center', margin: '10px 0' }),
     [],
   );
+
+  const dispatch = useDispatch();
+
+  const onUnfollow = useCallback((userId) => () => {
+    dispatch(unfollowAction({ userId }));
+  }, []);
 
   return (
     <FollowListWrapper
@@ -31,7 +39,7 @@ const FollowingList = ({ followingData, onClickMore, loading }) => {
       dataSource={followingData}
       renderItem={(following) => (
         <List.Item>
-          <FollowCard actions={[<UserDeleteOutlined key="unfollowing" />]}>
+          <FollowCard actions={[<UserDeleteOutlined key="unfollowing" onClick={onUnfollow(following.id)} />]}>
             <FollowCardContent
               avatar={<Avatar src={`https://joeschmoe.io/api/v1/${following.avatarNumber}`} />}
               description={following.nickname}

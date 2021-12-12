@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import { END } from 'redux-saga';
 import axios from 'axios';
-import useSWR from 'swr';
+import useSWR, { useSWRConfig } from 'swr';
 import AppLayout from '../components/layouts/AppLayout';
 import NicknameEditForm from '../components/contents/profile/NicknameEditForm';
 import FollowingList from '../components/contents/profile/FollowingList';
@@ -41,6 +41,15 @@ const Profile = () => {
   const loadMoreFollowing = useCallback(() => {
     setFollowingLimit((prev) => prev + 3);
   }, []);
+
+  const { mutate } = useSWRConfig();
+  useEffect(() => {
+    mutate(`http://localhost:3065/user/follower/list?limit=${followerLimit}`);
+  }, [myData.Follower]);
+
+  useEffect(() => {
+    mutate(`http://localhost:3065/user/following/list?limit=${followingLimit}`);
+  }, [myData.Following]);
 
   const router = useRouter();
   useEffect(() => {
@@ -100,15 +109,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     store.dispatch(END);
     await store.sagaTask.toPromise();
-
-    // const res = await axios.get(`http://localhost:3065/user/follower/list?limit=${followerLimit}`);
-
-    // console.log(res);
-    // const data = await res.json();
-
-    // return {
-    //   props: { data },
-    // };
   },
 );
 

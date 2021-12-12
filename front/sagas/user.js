@@ -31,6 +31,9 @@ import {
   UNFOLLOW_REQUEST,
   UNFOLLOW_SUCCESS,
   UNFOLLOW_FAILURE,
+  REMOVE_FOLLOW_REQUEST,
+  REMOVE_FOLLOW_SUCCESS,
+  REMOVE_FOLLOW_FAILURE,
 
 } from '../reducers/action';
 
@@ -233,6 +236,26 @@ function* unfollow(action) {
   }
 }
 
+function removeFollowAPI(data) {
+  return axios.delete(`user/${data.userId}/remove/follow`);
+}
+function* removeFollow(action) {
+  // userId
+  try {
+    const result = yield call(removeFollowAPI, action.payload);
+    yield put({
+      type: REMOVE_FOLLOW_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_FOLLOW_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLoadMydata() {
   yield takeLatest(LOAD_MYDATA_REQUEST, loadMydata);
 }
@@ -263,6 +286,9 @@ function* watchFollow() {
 function* watchUnfollow() {
   yield takeLatest(UNFOLLOW_REQUEST, unfollow);
 }
+function* watchRemoveFollow() {
+  yield takeLatest(REMOVE_FOLLOW_REQUEST, removeFollow);
+}
 
 export default function* userSaga() {
   yield all([
@@ -276,5 +302,6 @@ export default function* userSaga() {
     fork(watchSignup),
     fork(watchFollow),
     fork(watchUnfollow),
+    fork(watchRemoveFollow),
   ]);
 }

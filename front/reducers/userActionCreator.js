@@ -12,6 +12,7 @@ import {
   AVATAR_CHANGE_REQUEST,
   FOLLOW_REQUEST,
   UNFOLLOW_REQUEST,
+  REMOVE_FOLLOW_REQUEST,
 } from './action';
 
 export const loadMyDataAction = createAction(LOAD_MYDATA_REQUEST);
@@ -31,3 +32,5 @@ export const descriptionChangeAction = createAction(DESCRIPTION_CHANGE_REQUEST);
 
 export const followAction = createAction(FOLLOW_REQUEST);
 export const unfollowAction = createAction(UNFOLLOW_REQUEST);
+
+export const removeFollowAction = createAction(REMOVE_FOLLOW_REQUEST);
