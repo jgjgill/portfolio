@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Avatar, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import shortid from 'shortid';
-import { toast } from 'react-toastify';
 import { avatarChangeAction } from '../../../reducers/userActionCreator';
 
 const AvatarChangeWrapper = styled.div`

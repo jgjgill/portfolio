@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { List, Card, Button } from 'antd';
+import { List, Card, Button, Avatar } from 'antd';
 import { UserDeleteOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
-import Avatar from 'antd/lib/avatar/avatar';
 import { FollowCard, FollowListWrapper } from './styles';
 
 const FollowCardContent = styled(Card.Meta)`
@@ -11,16 +10,20 @@ const FollowCardContent = styled(Card.Meta)`
   flex-direction: column;
 `;
 
-const FollowingList = ({ followingData, onClickMore, loading }) => {
+const FollowerList = ({ followerData, onClickMore, loading }) => {
   const Grid = useMemo(() => ({ gutter: '4', ms: '2', md: '3' }), []);
   const LoadMore = useMemo(
     () => ({ textAlign: 'center', margin: '10px 0' }),
     [],
   );
 
+  const onUnfollow = useCallback(() => {
+    console.log('unfollowAction');
+  }, []);
+
   return (
     <FollowListWrapper
-      header="Following List"
+      header="Follower List"
       grid={Grid}
       loadMore={(
         <div style={LoadMore}>
@@ -28,13 +31,13 @@ const FollowingList = ({ followingData, onClickMore, loading }) => {
         </div>
         )}
       bordered
-      dataSource={followingData}
-      renderItem={(following) => (
+      dataSource={followerData}
+      renderItem={(follower) => (
         <List.Item>
-          <FollowCard actions={[<UserDeleteOutlined key="unfollowing" />]}>
+          <FollowCard actions={[<UserDeleteOutlined key="unfollow" onClick={onUnfollow} />]}>
             <FollowCardContent
-              avatar={<Avatar src={`https://joeschmoe.io/api/v1/${following.avatarNumber}`} />}
-              description={following.nickname}
+              avatar={<Avatar src={`https://joeschmoe.io/api/v1/${follower.avatarNumber}`} />}
+              description={follower.nickname}
             />
           </FollowCard>
         </List.Item>
@@ -43,10 +46,10 @@ const FollowingList = ({ followingData, onClickMore, loading }) => {
   );
 };
 
-FollowingList.propTypes = {
-  followingData: PropTypes.array.isRequired,
+FollowerList.propTypes = {
+  followerData: PropTypes.array.isRequired,
   onClickMore: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
 };
 
-export default FollowingList;
+export default FollowerList;

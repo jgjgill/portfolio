@@ -69,9 +69,9 @@ router.get('/:userId', async (req, res, next) => {
 
     if (userData) {
       const data = userData.toJSON();
-      data.Posts = data.Posts.length
-      data.Follower = data.Follower.length
-      data.Following = data.Following.length
+      data.Posts = data.Posts.length;
+      data.Follower = data.Follower.length;
+      data.Following = data.Following.length;
       return res.status(200).json(data);
     } else {
       return res.status(404).send('Not User!');
@@ -242,6 +242,68 @@ router.delete('/:userId/unfollow', isLoggedIn, async (req, res, next) => {
     await user.removeFollower(req.user.id);
 
     return res.status(200).json({ userId: parseInt(req.params.userId) });
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.get('/follower/list', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+
+    if (!user) {
+      res.status(403).send('no user!');
+    }
+
+    const followerList = await user.getFollower({
+      limit: parseInt(req.query.limit),
+      attributes: {
+        exclude: [
+          'password',
+          'description',
+          'createdAt',
+          'updatedAt',
+          'username',
+        ],
+      },
+    });
+    console.log(followerList);
+
+    return res.status(200).json(followerList);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
+router.get('/following/list', isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.user.id },
+    });
+
+    if (!user) {
+      res.status(403).send('no user!');
+    }
+
+    const followingList = await user.getFollowing({
+      limit: parseInt(req.query.limit),
+      attributes: {
+        exclude: [
+          'password',
+          'description',
+          'createdAt',
+          'updatedAt',
+          'username',
+        ],
+      },
+    });
+    console.log(followingList);
+
+    return res.status(200).json(followingList);
   } catch (err) {
     console.error(err);
     next(err);
