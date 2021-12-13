@@ -3,6 +3,7 @@ import { Avatar, Button, Comment, Tooltip } from 'antd';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 import { removeCommentAction } from '../../../reducers/postActionCreator';
 
@@ -27,9 +28,13 @@ const CommentContent = ({ commentData, postId }) => {
           </Tooltip>
         )}
         avatar={(
-          <Avatar
-            src={`https://joeschmoe.io/api/v1/${commentData.User.avatarNumber}`}
-          />
+          <Link href={`/user/${commentData.UserId}`}>
+            <a>
+              <Avatar
+                src={`https://joeschmoe.io/api/v1/${commentData.User.avatarNumber}`}
+              />
+            </a>
+          </Link>
         )}
       />
       {myData?.id === id && <Button type="danger" onClick={onRemoveComment}>삭제</Button>}
@@ -43,6 +48,7 @@ CommentContent.propTypes = {
     User: PropTypes.object,
     content: PropTypes.string,
     createdAt: PropTypes.string,
+    UserId: PropTypes.number,
   }).isRequired,
   postId: PropTypes.number.isRequired,
 };

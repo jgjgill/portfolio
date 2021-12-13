@@ -3,9 +3,10 @@ import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { Avatar, Card } from 'antd';
 import { END } from 'redux-saga';
+import axios from 'axios';
 import AppLayout from '../components/layouts/AppLayout';
 import wrapper from '../store/configureStore';
-import { loadUserAction } from '../reducers/userActionCreator';
+import { loadMyDataAction, loadUserAction } from '../reducers/userActionCreator';
 
 const About = () => {
   const { userInfo } = useSelector((state) => state.user);
@@ -50,12 +51,20 @@ const About = () => {
   );
 };
 
-export const getStaticProps = wrapper.getStaticProps(
-  (store) => async ({ req }) => {
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) => async ({ req, res }) => {
+    const cookie = req ? req.headers.cookie : '';
+
+    if (req && cookie) {
+      axios.defaults.headers.Cookie = cookie;
+    }
     store.dispatch(loadUserAction({ userId: 1 }));
+    store.dispatch(loadMyDataAction());
 
     console.log('1233오오오');
-    console.log(req);
+    console.log(res);
+    console.log(userInfo);
+    console.log('123333오오');
     store.dispatch(END);
     await store.sagaTask.toPromise();
   },

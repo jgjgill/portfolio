@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
@@ -114,9 +115,13 @@ const PostCard = ({ post }) => {
               <div>
                 <span>Retweet Post</span>
                 <div>
-                  <Avatar
-                    src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
-                  />
+                  <Link href={`/user/${post.User.id}`}>
+                    <a>
+                      <Avatar
+                        src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
+                      />
+                    </a>
+                  </Link>
                   <span>{post.User.nickname}</span>
                 </div>
               </div>
@@ -147,9 +152,13 @@ const PostCard = ({ post }) => {
                   </>
                 )}
                 avatar={(
-                  <Avatar
-                    src={`https://joeschmoe.io/api/v1/${post.Retweet.User.avatarNumber}`}
-                  />
+                  <Link href={`/user/${post.Retweet.User.id}`}>
+                    <a>
+                      <Avatar
+                        src={`https://joeschmoe.io/api/v1/${post.Retweet.User.avatarNumber}`}
+                      />
+                    </a>
+                  </Link>
                 )}
               />
               <Rate allowHalf disabled defaultValue={post.Retweet.rateNumber} />
@@ -169,9 +178,13 @@ const PostCard = ({ post }) => {
                   </>
                 )}
                 avatar={(
-                  <Avatar
-                    src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
-                  />
+                  <Link href={`/user/${post.User.id}`}>
+                    <a>
+                      <Avatar
+                        src={`https://joeschmoe.io/api/v1/${post.User.avatarNumber}`}
+                      />
+                    </a>
+                  </Link>
                 )}
               />
               <Rate allowHalf disabled defaultValue={post.rateNumber} />

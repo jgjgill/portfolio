@@ -14,7 +14,6 @@ const Navbar = () => {
 
   const router = useRouter();
   const onSearch = useCallback(() => {
-    console.log('search');
     router.push(`/hashtag/${searchValue}`);
   }, [searchValue]);
 
@@ -45,7 +44,7 @@ const Navbar = () => {
       </Menu.Item>
 
       <Menu.Item key="search">
-        <SearchInput placeholder="title" value={searchValue} onChange={onChangeSearch} onSearch={onSearch} />
+        <SearchInput placeholder="hashtag" value={searchValue} onChange={onChangeSearch} onSearch={onSearch} />
       </Menu.Item>
     </Menu>
   );

@@ -23,7 +23,7 @@ const UserProfile = () => {
     <>
       <CardWrapper
         actions={[
-          <Link href="/">
+          <Link href={`/user/${myData.id}`}>
             <a><div key="posts">{myData.Posts.length}<br />posts</div></a>
           </Link>,
           <Link href="/profile">
