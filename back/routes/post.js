@@ -6,7 +6,7 @@ const fs = require('fs');
 const router = express.Router();
 
 const { isLoggedIn } = require('./middlewares');
-const { Post, Image, Comment, User } = require('../models');
+const { Post, Image, Comment, User, Hashtag } = require('../models');
 
 try {
   fs.accessSync('uploads');
@@ -77,7 +77,7 @@ router.get('/:postId', async (req, res, next) => {
         },
       ],
     });
-    res.status(200).json(retweetWithPrevPost)
+    res.status(200).json(retweetWithPrevPost);
   } catch (err) {
     console.error(err);
     next(err);
@@ -86,12 +86,26 @@ router.get('/:postId', async (req, res, next) => {
 
 router.post('/addPost', isLoggedIn, upload.none(), async (req, res, next) => {
   try {
+    const hashtags = req.body.postText.match(/#[^\s#]+/g);
+    console.log('해쉬태그 : ', hashtags)
     const post = await Post.create({
       title: req.body.postTitle,
       content: req.body.postText,
       rateNumber: req.body.rateNumber,
       UserId: req.user.id,
     });
+
+    if (hashtags) {
+      const result = await Promise.all(
+        hashtags.map((tag) =>
+          Hashtag.findOrCreate({
+            where: { name: tag.slice(1).toLowerCase() },
+          })
+        )
+      );
+      
+      await post.addHashtags(result.map((v) => v[0]))
+    }
 
     if (req.body.image) {
       if (Array.isArray(req.body.image)) {

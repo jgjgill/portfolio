@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-const PostCardContent = ({ postContent, postId }) => (
+const PostCardContent = ({ postContent }) => (
   <>
-    {postContent.split(/(#[^\s#]+)/g).map((v) => {
+    {postContent.split(/(#[^\s#]+)/g).map((v, i) => {
       if (v.match(/(#[^\s#]+)/)) {
         return (
-          <Link href={`/hashtag/${v.slice(1)}`} key={postId}>
+          <Link href={`/hashtag/${v.slice(1)}`} key={i}>
             <a>{v}</a>
           </Link>
         );
@@ -19,7 +19,6 @@ const PostCardContent = ({ postContent, postId }) => (
 
 PostCardContent.propTypes = {
   postContent: PropTypes.string.isRequired,
-  postId: PropTypes.any.isRequired,
 };
 
 export default PostCardContent;

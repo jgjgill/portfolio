@@ -164,7 +164,6 @@ const PostCard = ({ post }) => {
                     <PostCardTitle postTitle={post.title} />
                     <PostCardContent
                       postContent={post.content}
-                      postId={post.id}
                       postCreatedAt={post.createdAt}
                     />
                   </>

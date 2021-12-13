@@ -24,7 +24,6 @@ const Post = () => {
   const router = useRouter();
   const { id } = router.query;
   const { mainPosts, loadPostError } = useSelector((state) => state.post);
-  console.log(id);
 
   useEffect(() => {
     if (!mainPosts[0]) {

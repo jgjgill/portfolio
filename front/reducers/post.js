@@ -6,6 +6,12 @@ import {
   LOAD_POST_REQUEST,
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAILURE,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_HASHTAG_POSTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -64,6 +70,36 @@ const reducer = createReducer(postState, (builder) => {
     .addCase(LOAD_POST_FAILURE, (state, action) => {
       state.loadPostLoading = false;
       state.loadPostError = action.error;
+    })
+
+    .addCase(LOAD_USER_POSTS_REQUEST, (state) => {
+      state.loadUserPostsLoading = true;
+      state.loadUserPostsDone = false;
+    })
+    .addCase(LOAD_USER_POSTS_SUCCESS, (state, action) => {
+      state.loadUserPostsLoading = false;
+      state.loadUserPostsDone = true;
+      state.mainPosts = state.mainPosts.concat(action.data);
+      state.hasMorePosts = action.data.length === 10;
+    })
+    .addCase(LOAD_USER_POSTS_FAILURE, (state, action) => {
+      state.loadUserPostsLoading = false;
+      state.loadUserPostsError = action.error;
+    })
+
+    .addCase(LOAD_HASHTAG_POSTS_REQUEST, (state) => {
+      state.loadHashtagPostsLoading = true;
+      state.loadHashtagPostsDone = false;
+    })
+    .addCase(LOAD_HASHTAG_POSTS_SUCCESS, (state, action) => {
+      state.loadHashtagPostsLoading = false;
+      state.loadHashtagPostsDone = true;
+      state.mainPosts = state.mainPosts.concat(action.data);
+      state.hasMorePosts = action.data.length === 10;
+    })
+    .addCase(LOAD_HASHTAG_POSTS_FAILURE, (state, action) => {
+      state.loadHashtagPostsLoading = false;
+      state.loadHashtagPostsError = action.error;
     })
 
     .addCase(ADD_POST_REQUEST, (state) => {

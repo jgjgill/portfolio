@@ -58,6 +58,7 @@ function* loadMydata() {
 }
 
 function loadUserAPI(data) {
+  console.log(data);
   return axios.get(`/user/${data.userId}`);
 }
 function* loadUser(action) {

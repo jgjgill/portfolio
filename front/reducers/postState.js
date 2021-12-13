@@ -12,6 +12,14 @@ const postState = {
   loadPostDone: false,
   loadPostError: null,
 
+  loadUserPostsLoading: false,
+  loadUserPostsDone: false,
+  loadUserPostsError: null,
+
+  loadHashtagPostsLoading: false,
+  loadHashtagPostsDone: false,
+  loadHashtagPostsError: null,
+
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,

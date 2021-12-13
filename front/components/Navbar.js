@@ -14,8 +14,8 @@ const Navbar = () => {
 
   const router = useRouter();
   const onSearch = useCallback(() => {
-    console.log(123);
-    router.push('/');
+    console.log('search');
+    router.push(`/hashtag/${searchValue}`);
   }, [searchValue]);
 
   return (

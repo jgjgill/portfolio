@@ -10,7 +10,7 @@ import { loadMyDataAction, loadUserAction } from '../../reducers/userActionCreat
 import wrapper from '../../store/configureStore';
 import AppLayout from '../../components/layouts/AppLayout';
 import PostCard from '../../components/contents/home/PostCard';
-import { loadUserPostsAction } from '../../reducers/postActionCreator';
+import { loadHashtagPostsAction, loadUserPostsAction } from '../../reducers/postActionCreator';
 
 const GlobalCardExtraFlex = createGlobalStyle`
   .ant-card-extra {
@@ -20,19 +20,18 @@ const GlobalCardExtraFlex = createGlobalStyle`
   }
 `;
 
-const user = () => {
+const hashtag = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { tag } = router.query;
 
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
   useEffect(() => {
     if (inView && hasMorePosts && !loadPostsLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
-      dispatch(loadUserPostsAction({ lastId, userId: id }));
+      dispatch(loadUserPostsAction({ lastId, hashtagName: tag }));
     }
   }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
 
@@ -40,8 +39,7 @@ const user = () => {
     <>
       <Head>
         <title>
-          {userInfo.nickname}
-          &#39;s posts
+          hashtag search
         </title>
         <meta />
         <meta />
@@ -71,11 +69,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     store.dispatch(loadMyDataAction());
     store.dispatch(loadUserAction({ userId: params.id }));
-    store.dispatch(loadUserPostsAction({ userId: params.id }));
+    store.dispatch(loadHashtagPostsAction({ hashtagName: params.tag }));
 
     store.dispatch(END);
     await store.sagaTask.toPromise();
   },
 );
 
-export default user;
+export default hashtag;

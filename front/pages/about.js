@@ -51,9 +51,11 @@ const About = () => {
 };
 
 export const getStaticProps = wrapper.getStaticProps(
-  (store) => async () => {
+  (store) => async ({ req }) => {
     store.dispatch(loadUserAction({ userId: 1 }));
 
+    console.log('1233오오오');
+    console.log(req);
     store.dispatch(END);
     await store.sagaTask.toPromise();
   },
