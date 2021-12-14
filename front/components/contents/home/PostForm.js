@@ -84,7 +84,6 @@ const PostForm = () => {
       <Input.TextArea
         value={postText}
         onChange={onChangePostText}
-        maxLength={140}
         placeholder="one line review!"
         allowClear
         required

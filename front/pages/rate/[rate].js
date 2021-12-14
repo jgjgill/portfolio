@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import { createGlobalStyle } from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { useInView } from 'react-intersection-observer';
@@ -11,14 +10,7 @@ import PostCard from '../../components/contents/home/PostCard';
 import wrapper from '../../store/configureStore';
 import { loadMyDataAction } from '../../reducers/userActionCreator';
 import { loadRatePostsAction } from '../../reducers/postActionCreator';
-
-const GlobalCardExtraFlex = createGlobalStyle`
-  .ant-card-extra {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
+import { GlobalCardExtraFlex } from '../styles';
 
 const Rate = () => {
   const router = useRouter();

@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 import Head from 'next/head';
 import 'antd/dist/antd.css';
 import 'react-toastify/dist/ReactToastify.css';
-import '../styles/styles.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { useSelector } from 'react-redux';
-
 import wrapper from '../store/configureStore';
 
 const App = ({ Component }) => {
@@ -24,6 +22,7 @@ const App = ({ Component }) => {
         <meta charSet="utf-8" />
         <link href="https://fonts.googleapis.com/css2?family=Hi+Melody&display=swap" rel="stylesheet" />
       </Head>
+      <div>asdasd</div>
       <Component />
       <ToastContainer
         theme="dark"

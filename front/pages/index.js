@@ -2,11 +2,9 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
-import { createGlobalStyle } from 'styled-components';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { END } from 'redux-saga';
-
 import AppLayout from '../components/layouts/AppLayout';
 import PostForm from '../components/contents/home/PostForm';
 import PostCard from '../components/contents/home/PostCard';
@@ -16,14 +14,8 @@ import {
 } from '../reducers/postActionCreator';
 import { loadMyDataAction } from '../reducers/userActionCreator';
 import wrapper from '../store/configureStore';
-
-const GlobalCardExtraFlex = createGlobalStyle`
-  .ant-card-extra {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
+import { GlobalCardExtraFlex } from './styles';
+// import variables from '../styles/variables.module.scss';
 
 const Home = () => {
   const dispatch = useDispatch();

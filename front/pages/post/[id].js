@@ -4,21 +4,13 @@ import Head from 'next/head';
 import { END } from 'redux-saga';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
 import { toast } from 'react-toastify';
 import AppLayout from '../../components/layouts/AppLayout';
 import wrapper from '../../store/configureStore';
 import { loadMyDataAction } from '../../reducers/userActionCreator';
 import { loadPostAction } from '../../reducers/postActionCreator';
 import PostCard from '../../components/contents/home/PostCard';
-
-const GlobalCardExtraFlex = createGlobalStyle`
-  .ant-card-extra {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
+import { GlobalCardExtraFlex } from '../styles';
 
 const Post = () => {
   const router = useRouter();

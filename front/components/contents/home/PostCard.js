@@ -9,11 +9,9 @@ import {
   HeartOutlined,
   HeartTwoTone,
 } from '@ant-design/icons';
-import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
 import Link from 'next/link';
-
 import PostImages from './PostImages';
 import CommentForm from './CommentForm';
 import PostCardContent from './PostCardContent';
@@ -22,11 +20,7 @@ import CommentContent from './CommentContent';
 import FollowButton from './FollowButton';
 import LikeCount from './LikeCount';
 import PostCardTitle from './PostCardTitle';
-
-const CardWrapper = styled(Card)`
-  margin-bottom: 10px;
-  width: 100%;
-`;
+import { CardWrapper } from './styles';
 
 const PostCard = ({ post }) => {
   const dispatch = useDispatch();

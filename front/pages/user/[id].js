@@ -4,28 +4,20 @@ import Head from 'next/head';
 import { useInView } from 'react-intersection-observer';
 import { useDispatch, useSelector } from 'react-redux';
 import { END } from 'redux-saga';
-import { createGlobalStyle } from 'styled-components';
 import { useRouter } from 'next/router';
 import { loadMyDataAction, loadUserAction } from '../../reducers/userActionCreator';
 import wrapper from '../../store/configureStore';
 import AppLayout from '../../components/layouts/AppLayout';
 import PostCard from '../../components/contents/home/PostCard';
 import { loadUserPostsAction } from '../../reducers/postActionCreator';
-
-const GlobalCardExtraFlex = createGlobalStyle`
-  .ant-card-extra {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-`;
+import { GlobalCardExtraFlex } from '../styles';
 
 const User = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.U);
+  const { userInfo } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadUserPostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();

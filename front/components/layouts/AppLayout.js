@@ -1,33 +1,20 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Col, Layout, Row } from 'antd';
-import styled from 'styled-components';
+import { Col, Row } from 'antd';
 import axios from 'axios';
 import useSWR from 'swr';
-
 import Footer from '../Footer';
 import Navbar from '../Navbar';
 import LoginForm from '../contents/LoginForm';
 import UserProfile from '../contents/UserProfile';
 import MovieRank from '../contents/MovieRank';
-
-// const LayoutApp = styled(Layout)`
-//   margin: 0;
-//   padding: 0;
-// `;
-
-const LayoutHeader = styled(Layout.Header)`
-  height: 100%;
-  padding: 0;
-`;
-
-const LayoutContent = styled(Layout.Content)`
-  height: 100%;
-`;
-const LayoutFooter = styled(Layout.Footer)`
-  height: 100%;
-`;
+import {
+  LayoutWrapper,
+  LayoutHeader,
+  LayoutContent,
+  LayoutFooter,
+} from './styles';
 
 const fetcher = (url) => axios.get(url, { withCredentials: true })
   .then((res) => res.data);
@@ -39,13 +26,13 @@ const AppLayout = ({ children }) => {
   const { data: movieData, error: movieError } = useSWR(movieURL, fetcher);
 
   return (
-    <Layout>
+    <LayoutWrapper>
       <LayoutHeader>
         <Navbar />
       </LayoutHeader>
 
       <LayoutContent>
-        <Row>
+        <Row gutter={8}>
           <Col xs={24} md={5}>
             {myData ? <UserProfile /> : <LoginForm />}
           </Col>
@@ -64,7 +51,7 @@ const AppLayout = ({ children }) => {
       <LayoutFooter>
         <Footer />
       </LayoutFooter>
-    </Layout>
+    </LayoutWrapper>
   );
 };
 
