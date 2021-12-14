@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import Link from 'next/link';
-import { Menu, Input } from 'antd';
+import { Menu, Input, Select } from 'antd';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useInput } from '../hooks/useInput';
@@ -16,6 +16,11 @@ const Navbar = () => {
   const onSearch = useCallback(() => {
     router.push(`/hashtag/${searchValue}`);
   }, [searchValue]);
+
+  const onChangeRate = useCallback((value) => {
+    console.log(value);
+    router.push(`/rate/${value}`);
+  }, []);
 
   return (
     <Menu mode="horizontal">
@@ -45,6 +50,17 @@ const Navbar = () => {
 
       <Menu.Item key="search">
         <SearchInput placeholder="hashtag" value={searchValue} onChange={onChangeSearch} onSearch={onSearch} />
+      </Menu.Item>
+
+      <Menu.Item key="filter">
+        <Select placeholder="movie rate filter" style={{ width: 200 }} onChange={onChangeRate}>
+          <Select.Option value="0">0</Select.Option>
+          <Select.Option value="1">1</Select.Option>
+          <Select.Option value="2">2</Select.Option>
+          <Select.Option value="3">3</Select.Option>
+          <Select.Option value="4">4</Select.Option>
+          <Select.Option value="5">5</Select.Option>
+        </Select>
       </Menu.Item>
     </Menu>
   );

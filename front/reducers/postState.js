@@ -20,6 +20,10 @@ const postState = {
   loadHashtagPostsDone: false,
   loadHashtagPostsError: null,
 
+  loadRatePostsLoading: false,
+  loadRatePostsDone: false,
+  loadRatePostsError: null,
+
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,

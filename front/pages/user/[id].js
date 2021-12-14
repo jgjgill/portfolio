@@ -20,21 +20,21 @@ const GlobalCardExtraFlex = createGlobalStyle`
   }
 `;
 
-const user = () => {
+const User = () => {
   const router = useRouter();
   const { id } = router.query;
 
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.user);
-  const { mainPosts, hasMorePosts, loadPostsLoading } = useSelector((state) => state.post);
+  const { userInfo } = useSelector((state) => state.U);
+  const { mainPosts, hasMorePosts, loadUserPostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
   useEffect(() => {
-    if (inView && hasMorePosts && !loadPostsLoading) {
+    if (inView && hasMorePosts && !loadUserPostsLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
       dispatch(loadUserPostsAction({ lastId, userId: id }));
     }
-  }, [inView, hasMorePosts, loadPostsLoading, mainPosts]);
+  }, [inView, hasMorePosts, loadUserPostsLoading, mainPosts]);
 
   return (
     <>
@@ -54,7 +54,7 @@ const user = () => {
         {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
-        <div ref={hasMorePosts && !loadPostsLoading ? ref : undefined} />
+        <div ref={hasMorePosts && !loadUserPostsLoading ? ref : undefined} />
       </AppLayout>
     </>
 
@@ -78,4 +78,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
   },
 );
 
-export default user;
+export default User;

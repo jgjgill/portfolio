@@ -12,6 +12,9 @@ import {
   LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_HASHTAG_POSTS_SUCCESS,
   LOAD_HASHTAG_POSTS_FAILURE,
+  LOAD_RATE_POSTS_REQUEST,
+  LOAD_RATE_POSTS_SUCCESS,
+  LOAD_RATE_POSTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -100,6 +103,21 @@ const reducer = createReducer(postState, (builder) => {
     .addCase(LOAD_HASHTAG_POSTS_FAILURE, (state, action) => {
       state.loadHashtagPostsLoading = false;
       state.loadHashtagPostsError = action.error;
+    })
+
+    .addCase(LOAD_RATE_POSTS_REQUEST, (state) => {
+      state.loadRatePostsLoading = true;
+      state.loadRatePostsDone = false;
+    })
+    .addCase(LOAD_RATE_POSTS_SUCCESS, (state, action) => {
+      state.loadRatePostsLoading = false;
+      state.loadRatePostsDone = true;
+      state.mainPosts = state.mainPosts.concat(action.data);
+      state.hasMorePosts = action.data.length === 10;
+    })
+    .addCase(LOAD_RATE_POSTS_FAILURE, (state, action) => {
+      state.loadRatePostsLoading = false;
+      state.loadRatePostsError = action.error;
     })
 
     .addCase(ADD_POST_REQUEST, (state) => {

@@ -161,7 +161,7 @@ const PostCard = ({ post }) => {
                   </Link>
                 )}
               />
-              <Rate allowHalf disabled defaultValue={post.Retweet.rateNumber} />
+              <Rate disabled defaultValue={post.Retweet.rateNumber} />
             </Card>
           )
           : (
@@ -187,7 +187,7 @@ const PostCard = ({ post }) => {
                   </Link>
                 )}
               />
-              <Rate allowHalf disabled defaultValue={post.rateNumber} />
+              <Rate disabled defaultValue={post.rateNumber} />
             </>
           )}
       </CardWrapper>

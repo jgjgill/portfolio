@@ -52,7 +52,7 @@ const About = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async ({ req, res }) => {
+  (store) => async ({ req }) => {
     const cookie = req ? req.headers.cookie : '';
 
     if (req && cookie) {
@@ -61,10 +61,6 @@ export const getServerSideProps = wrapper.getServerSideProps(
     store.dispatch(loadUserAction({ userId: 1 }));
     store.dispatch(loadMyDataAction());
 
-    console.log('1233오오오');
-    console.log(res);
-    console.log(userInfo);
-    console.log('123333오오');
     store.dispatch(END);
     await store.sagaTask.toPromise();
   },

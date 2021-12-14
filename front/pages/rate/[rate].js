@@ -1,16 +1,16 @@
-import axios from 'axios';
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import { useInView } from 'react-intersection-observer';
-import { useDispatch, useSelector } from 'react-redux';
-import { END } from 'redux-saga';
 import { createGlobalStyle } from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { loadMyDataAction, loadUserAction } from '../../reducers/userActionCreator';
-import wrapper from '../../store/configureStore';
+import { useInView } from 'react-intersection-observer';
+import axios from 'axios';
+import { END } from 'redux-saga';
 import AppLayout from '../../components/layouts/AppLayout';
 import PostCard from '../../components/contents/home/PostCard';
-import { loadHashtagPostsAction, loadUserPostsAction } from '../../reducers/postActionCreator';
+import wrapper from '../../store/configureStore';
+import { loadMyDataAction } from '../../reducers/userActionCreator';
+import { loadRatePostsAction } from '../../reducers/postActionCreator';
 
 const GlobalCardExtraFlex = createGlobalStyle`
   .ant-card-extra {
@@ -20,28 +20,27 @@ const GlobalCardExtraFlex = createGlobalStyle`
   }
 `;
 
-const hashtag = () => {
+const Rate = () => {
   const router = useRouter();
-  const { tag } = router.query;
+  const { rate } = router.query;
 
   const dispatch = useDispatch();
-  const { mainPosts, hasMorePosts, loadHashtagPostsLoading } = useSelector((state) => state.post);
+  const { mainPosts, hasMorePosts, loadRatePostsLoading } = useSelector((state) => state.post);
 
   const { ref, inView } = useInView();
   useEffect(() => {
-    if (inView && hasMorePosts && !loadHashtagPostsLoading) {
+    if (inView && hasMorePosts && !loadRatePostsLoading) {
       const lastId = mainPosts[mainPosts.length - 1]?.id;
-      dispatch(loadUserPostsAction({ lastId, hashtagName: tag }));
+      dispatch(loadRatePostsAction({ lastId, rateValue: rate }));
     }
-  }, [inView, hasMorePosts, loadHashtagPostsLoading, mainPosts]);
+  });
 
   return (
     <>
       <Head>
         <title>
-          hashtag search
+          movieRate
         </title>
-        <meta />
         <meta />
         <meta />
         <meta />
@@ -52,10 +51,9 @@ const hashtag = () => {
         {mainPosts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
-        <div ref={hasMorePosts && !loadHashtagPostsLoading ? ref : undefined} />
+        <div ref={hasMorePosts && !loadRatePostsLoading ? ref : undefined} />
       </AppLayout>
     </>
-
   );
 };
 
@@ -68,12 +66,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
 
     store.dispatch(loadMyDataAction());
-    store.dispatch(loadUserAction({ userId: params.id }));
-    store.dispatch(loadHashtagPostsAction({ hashtagName: params.tag }));
+    store.dispatch(loadRatePostsAction({ rateValue: params.rate }));
 
     store.dispatch(END);
     await store.sagaTask.toPromise();
   },
 );
 
-export default hashtag;
+export default Rate;

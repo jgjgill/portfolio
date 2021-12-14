@@ -6,6 +6,7 @@ import {
   LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_POSTS_REQUEST,
   LOAD_POST_REQUEST,
+  LOAD_RATE_POSTS_REQUEST,
   LOAD_USER_POSTS_REQUEST,
   REMOVE_COMMENT_REQUEST,
   REMOVE_IMAGE,
@@ -23,6 +24,8 @@ export const loadPostAction = createAction(LOAD_POST_REQUEST);
 export const loadUserPostsAction = createAction(LOAD_USER_POSTS_REQUEST);
 
 export const loadHashtagPostsAction = createAction(LOAD_HASHTAG_POSTS_REQUEST);
+
+export const loadRatePostsAction = createAction(LOAD_RATE_POSTS_REQUEST);
 
 export const addPostAction = createAction(ADD_POST_REQUEST);
 export const removePostAction = createAction(REMOVE_POST_REQUEST);

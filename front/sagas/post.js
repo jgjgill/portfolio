@@ -13,6 +13,9 @@ import {
   LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_HASHTAG_POSTS_SUCCESS,
   LOAD_HASHTAG_POSTS_FAILURE,
+  LOAD_RATE_POSTS_REQUEST,
+  LOAD_RATE_POSTS_SUCCESS,
+  LOAD_RATE_POSTS_FAILURE,
   ADD_POST_REQUEST,
   ADD_POST_SUCCESS,
   ADD_POST_FAILURE,
@@ -114,6 +117,25 @@ function* loadHashtagPosts(action) {
     console.error(err);
     yield put({
       type: LOAD_HASHTAG_POSTS_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function loadRatePostsAPI(data) {
+  return axios.get(`/posts/rate/${data.rateValue}?lastId=${data?.lastId || 0}`);
+}
+function* loadRatePosts(action) {
+  try {
+    const result = yield call(loadRatePostsAPI, action.payload);
+    yield put({
+      type: LOAD_RATE_POSTS_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_RATE_POSTS_FAILURE,
       error: err.response.data,
     });
   }
@@ -288,6 +310,9 @@ function* watchLoadPost() {
 function* watchLoadUserPosts() {
   yield takeLatest(LOAD_USER_POSTS_REQUEST, loadUserPosts);
 }
+function* watchLoadRatePosts() {
+  yield takeLatest(LOAD_RATE_POSTS_REQUEST, loadRatePosts);
+}
 function* watchAddPost() {
   yield takeLatest(ADD_POST_REQUEST, addPost);
 }
@@ -323,6 +348,7 @@ export default function* postSaga() {
       fork(watchLoadPost),
       fork(watchLoadUserPosts),
       fork(watchLoadHashtagPosts),
+      fork(watchLoadRatePosts),
       fork(watchAddPost),
       fork(watchRemovePost),
       fork(watchAddComment),
